@@ -6,13 +6,9 @@ document.addEventListener("DOMContentLoaded", () => {
         clickDiv.style.top = `${event.clientY}px`;
         clickDiv.style.left = `${event.clientX}px`;
         document.body.appendChild(clickDiv);
-    }
-
-    document.onmouseup = () => {
-        const clickDivs = document.querySelectorAll(".click");
-        clickDivs.forEach((div) => {
-            div.remove();
-        });
+        setTimeout(() => {
+            clickDiv.remove();
+        }, 200);
     }
 
     const helloMessage = document.getElementById("colloc-head");

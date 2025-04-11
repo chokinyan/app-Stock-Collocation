@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    let alerteList: string[] = [];
+    let alerteList: Array<Array<string>> = [];
     let alerteType : string = "Compartiment Frais";
     const title = document.getElementById("alerte-header-title");
     

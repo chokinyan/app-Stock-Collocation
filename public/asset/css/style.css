@@ -3,6 +3,12 @@
     padding: 0;
     box-sizing: border-box;
     flex-wrap: wrap;
+    text-align: center;
+    display: block;
+}
+
+title {
+    display: none;
 }
 
 html,
@@ -142,19 +148,20 @@ body {
 }
 
 #alerte-buttons-choice-container {
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     gap: 5rem;
+    right: 15%;
 }
 
 .alerte-button-choice {
     --width-button: 197px;
     --height-button: 56px;
     --padding-button: 0;
-    filter: drop-shadow(0px 4px 8px black);
-    filter: brightness(0.9);
+    filter: drop-shadow(0px 2px 4px black) brightness(0.9);
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -162,7 +169,7 @@ body {
     gap: 0.5rem;
 }
 
-.alerte-button-choice p{
+.alerte-button-choice p {
     font-size: 18px;
     line-height: 20px;
     letter-spacing: 0.1px;
@@ -197,8 +204,14 @@ body {
     display: flex;
     width: 744px;
     height: 577px;
-    justify-content: center;
-    align-items: center;
     flex-direction: column;
     border: 3px solid black;
+}
+
+.Alerte-item{
+    display: flex;
+    justify-content: space-around;
+    background: white;
+    border-bottom: #2c2c2c solid 3px;
+    padding: 0.25rem 0.1rem;
 }
