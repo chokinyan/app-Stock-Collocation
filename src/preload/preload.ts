@@ -1,2 +1,8 @@
-import { contextBridge, ipcRenderer } from 'electron/renderer';
+import { contextBridge, ipcRenderer } from 'electron';
 
+contextBridge.exposeInMainWorld('electron', {
+    connect : ()=> ipcRenderer.invoke('connect'),
+    disconnect : ()=> ipcRenderer.invoke('disconnect'),
+    alerteGo : ()=> ipcRenderer.invoke('alerteGo'),
+    back : ()=> ipcRenderer.invoke('back'),
+});

@@ -1,12 +1,204 @@
-button{
-    background-color: #4CAF50;
-    color: white;
-    padding: 14px 20px;
-    margin: 8px 0;
-    border: none;
-    cursor: pointer;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    flex-wrap: wrap;
+}
+
+html,
+body {
+    height: 100%;
     width: 100%;
-    font-size: 20px;
-    box-shadow: gray 10px 10px 10px;
+}
+
+body {
+    background-color: #D9D9D9;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+}
+
+#colloc-head-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20rem;
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
+}
+
+#disconnect-button {
+    cursor: pointer;
+    padding: 0.2rem;
+}
+
+#colloc-notification {
+    border: black solid 1px;
     border-radius: 5px;
+    padding: 10px;
+    background-color: #fff;
+}
+
+#colloc-head {
+    text-align: center;
+    font-size: 32px;
+    font-weight: 600;
+    line-height: auto;
+    letter-spacing: 0;
+    color: #381E72;
+}
+
+
+#colloc-body-container {
+    padding-top: 10rem;
+    display: flex;
+    gap: 25rem;
+    justify-content: center;
+    align-items: center;
+}
+
+#colloc-footer-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20rem;
+    padding-top: 10rem;
+}
+
+#colloc-footer-container p {
+    font-size: 64px;
+    font-weight: 600;
+    line-height: auto;
+    letter-spacing: 0;
+    color: black;
+}
+
+.default-button {
+    background-color: #2c2c2c;
+    color: #f5f5f5;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 2rem;
+}
+
+.default-button p {
+    margin: 0;
+    padding: 0;
+    font-size: 40px;
+    text-align: center;
+}
+
+.colloc-button {
+    width: 380px;
+    height: 221px;
+}
+
+
+.click {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background: none;
+    border: #381E72 solid 2px;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    pointer-events: none;
+}
+
+.return-button-info {
+    --padding: 1rem 0.75rem;
+    --border-radius: 10px;
+}
+
+.alerte-button {
+    background-color: #EC221F;
+    border-radius: var(--border-radius);
+    padding: var(--padding);
+    border: #C00F0C solid 1px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.75rem;
+    color: #FEE9E7;
+    font-size: 32px;
+}
+
+#alerte-header {
+    display: flex;
+    align-items: center;
+    padding: 2rem 1.5rem 2rem;
+}
+
+#alerte-header-title {
+    font-size: 64px;
+    font-weight: 600;
+    line-height: auto;
+    letter-spacing: 0;
+    color: #381E72;
+    padding-left: 24rem;
+}
+
+#alerte-buttons-choice-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 5rem;
+}
+
+.alerte-button-choice {
+    --width-button: 197px;
+    --height-button: 56px;
+    --padding-button: 0;
+    filter: drop-shadow(0px 4px 8px black);
+    filter: brightness(0.9);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.alerte-button-choice p{
+    font-size: 18px;
+    line-height: 20px;
+    letter-spacing: 0.1px;
+    font-weight: 500;
+}
+
+.alerte-button-choice img {
+    width: 22px;
+    height: 18px;
+}
+
+.choice-button {
+    /*#65558F #ECE6F0*/
+    background-color: #ece6f0;
+    color: #65558F;
+    border: none;
+    padding: var(--padding-button);
+    border-radius: 5px;
+    cursor: pointer;
+    width: var(--width-button);
+    height: var(--height-button);
+}
+
+#alerte-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 4rem 2rem;
+}
+
+#alerte-content-container {
+    display: flex;
+    width: 744px;
+    height: 577px;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border: 3px solid black;
 }

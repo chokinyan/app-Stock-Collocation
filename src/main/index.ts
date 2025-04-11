@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, ipcMain } from 'electron';
 import path from 'path';
 
 let mainWindow: BrowserWindow;
@@ -8,22 +8,43 @@ function createWindow() {
     fullscreen: true,
     resizable: false,
     autoHideMenuBar: true,
-    /*icon: path.join(__dirname, '../../public/asset/image/icon/favico.ico'),*/
+    icon: path.join(__dirname, '../../public/asset/image/icon/favico.ico'),
     title: 'Projet Stock Collocation',
     webPreferences: {
       preload: path.join(__dirname, '../preload/preload.js'), // Chemin vers le preload
       contextIsolation: true, // Sécurité : isolement du contexte
       nodeIntegration: false, // Sécurité : désactive l'intégration de Node.js dans le renderer
-      devTools: false, // Ouvre les outils de développement
+      devTools: true, // Ouvre les outils de développement
     },
   });
 
   // Charge le fichier HTML
+  //mainWindow.removeMenu();
   mainWindow.loadFile(path.join(__dirname, '../../public/index.html'));
 }
 
 app.on('ready', () => {
   createWindow();
+
+  ipcMain.handle('connect', async () => {
+    await mainWindow.loadFile(path.join(__dirname, '../../public/colloc/index.html'));
+  });
+
+  ipcMain.handle('disconnect', async () => {
+    await mainWindow.loadFile(path.join(__dirname, '../../public/index.html'));
+  });
+
+  ipcMain.handle('alerteGo', async () => {
+    await mainWindow.loadFile(path.join(__dirname, '../../public/colloc/alerte/index.html'));
+  });
+
+  ipcMain.handle('back', async () => {
+    const dir : String[] = mainWindow.webContents.getURL().replace('file:///', '').split('/');
+    dir.pop();
+    dir.pop();
+    const newPath = dir.join('/');
+    mainWindow.loadFile(newPath + '/index.html');
+  });
 
 });
 
