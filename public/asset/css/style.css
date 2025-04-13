@@ -7,6 +7,12 @@
     display: block;
 }
 
+button {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
 title {
     display: none;
 }
@@ -34,7 +40,6 @@ body {
 }
 
 #disconnect-button {
-    cursor: pointer;
     padding: 0.2rem;
 }
 
@@ -148,13 +153,11 @@ body {
 }
 
 #alerte-buttons-choice-container {
-    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     gap: 5rem;
-    right: 15%;
 }
 
 .alerte-button-choice {
@@ -195,9 +198,10 @@ body {
 
 #alerte-content {
     display: flex;
-    justify-content: center;
+    justify-content: start;
     align-items: center;
     padding: 4rem 2rem;
+    gap: 17rem;
 }
 
 #alerte-content-container {
@@ -208,10 +212,54 @@ body {
     border: 3px solid black;
 }
 
-.Alerte-item{
+.Alerte-item {
     display: flex;
-    justify-content: space-around;
+    align-items: center;
+    justify-content: start;
     background: white;
     border-bottom: #2c2c2c solid 3px;
-    padding: 0.25rem 0.1rem;
+    padding: 0.25rem 0.75rem;
+    gap: 3.5rem;
 }
+
+.Alerte-item p {
+    font-size: 16px;
+}
+
+.Alerte-item img {
+    width: 40px;
+    height: 40px;
+}
+
+.dispawn {
+    animation: dispawn 0.5s ease-in-out forwards;
+}
+
+#compartiment-main-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-top: 10rem;
+}
+
+#compartiment-selector{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+}
+
+/* Animation */
+
+@keyframes dispawn {
+    0% {
+        filter: opacity(1);
+    }
+
+    100% {
+        filter: opacity(0);
+        display: none;
+    }
+}
+

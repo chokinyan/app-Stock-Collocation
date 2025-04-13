@@ -5,4 +5,5 @@ contextBridge.exposeInMainWorld('electron', {
     disconnect : ()=> ipcRenderer.invoke('disconnect'),
     alerteGo : ()=> ipcRenderer.invoke('alerteGo'),
     back : ()=> ipcRenderer.invoke('back'),
+    editContainerGo : ()=> ipcRenderer.invoke('editContainerGo'),
 });

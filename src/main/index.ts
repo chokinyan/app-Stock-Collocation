@@ -38,6 +38,10 @@ app.on('ready', () => {
     await mainWindow.loadFile(path.join(__dirname, '../../public/colloc/alerte/index.html'));
   });
 
+  ipcMain.handle('editContainerGo', async () => {
+    await mainWindow.loadFile(path.join(__dirname, '../../public/colloc/compartiment/edit/index.html'));
+  });
+
   ipcMain.handle('back', async () => {
     const dir : String[] = mainWindow.webContents.getURL().replace('file:///', '').split('/');
     dir.pop();

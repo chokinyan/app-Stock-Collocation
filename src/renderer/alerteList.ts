@@ -21,19 +21,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    //const alerteList = document.getElementById("alerte-list");
-    //if (alerteList) {
-    //    // @ts-ignore
-    //    window.electron.getAlerteList().then((data: string[]) => {
-    //        data.forEach((alerte) => {
-    //            const alerteDiv = document.createElement("div");
-    //            alerteDiv.className = "alerte";
-    //            alerteDiv.innerHTML = alerte;
-    //            alerteList.appendChild(alerteDiv);
-    //        });
-    //    });
-    //}
-
     const changeTitle = (name: string) => {
         if (title) {
             alerteType = name;

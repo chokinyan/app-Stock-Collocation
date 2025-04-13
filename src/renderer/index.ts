@@ -55,4 +55,12 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    const editContainerBtn = document.getElementById("compartimentBTN");
+    if (editContainerBtn) {
+        editContainerBtn.addEventListener("click", () => {
+            // @ts-ignore
+            window.electron.editContainerGo();
+        });
+    }
+
 });
