@@ -19,33 +19,55 @@
         <p id="alerte-header-title">Nom du compartiment</p>
     </div>
 
-    <div id="alerte-content">
-        <div id="alerte-buttons-choice-container">
-            <button class="choice-button alerte-button-choice" Alerte-type="Compartiment Frais">
-                <img src="../../asset/image/icon/FraisIcon.svg" alt="compartimentFraisIcon" class="choice-button-icon">
-                <p>compartiment frais</p>
+    <div id="compartiment-main-container">
+        <div id="compartiment-selector">
+            <img src="../../asset/image/icon/add_circle.svg" alt="Add item" id="add-item-icon" class="clickable">
+            <img src="../../asset/image/icon/Edit.svg" alt="Edit item" id="edit-item-icon" class="clickable">
+            <button class="choice-button compartiment-button">
+                <img src="../../asset/image/icon/secIcon.svg">
+                Compartiment sec
             </button>
-            <button class="choice-button alerte-button-choice" Alerte-type="Compartiment Sec">
-                <img src="../../asset/image/icon/secIcon.svg" alt="compartimentSecIcon" class="choice-button-icon">
-                <p>Compartiment sec</p>
+            <button class="choice-button compartiment-button">
+                <img src="../../asset/image/icon/FraisIcon.svg">
+                Compartiment frais
             </button>
-            <button class="choice-button alerte-button-choice" Alerte-type="Température">
-                <img src="../../asset/image/icon/alertIcon.svg" alt="compartimentCongelIcon" class="choice-button-icon">
-                <p>Alerte température</p>
-            </button>
+            <img src="../../asset/image/icon/Trash 2.svg" alt="Delete item" id="delete-item-icon" class="clickable">
+
         </div>
 
-        <div id="alerte-content-container">
-            <div class="Alerte-item">
-                <img src="../../asset/image/icon/Monogram.svg" class="alerte-item-icon">
-                <p>L'alliment vzegfauygaukfagv est périmé depuis le 03/02/01</p>
+        <div id="compartiment-item-list">
+            <div class="compartiment-item">
+                <img src="../../asset/image/icon/Monogram.svg" alt="foodIcon" class="compartiment-item-icon">
+                <p class="compartiment-item-name">Nom de l'aliment</p>
+                <p class="compartiment-item-date">Date de péremption</p>
+                <input type="radio" name="compartiment-item">
+            </div>
+            <div class="compartiment-item">
+                <img src="../../asset/image/icon/Monogram.svg" alt="foodIcon" class="compartiment-item-icon">
+                <p class="compartiment-item-name">Nom de l'aliment</p>
+                <p class="compartiment-item-date">Date de péremption</p>
+                <input type="radio" name="compartiment-item">
+            </div>
+            <div class="compartiment-item">
+                <img src="../../asset/image/icon/Monogram.svg" alt="foodIcon" class="compartiment-item-icon">
+                <p class="compartiment-item-name">Nom de l'aliment</p>
+                <p class="compartiment-item-date">Date de péremption</p>
+                <input type="radio" name="compartiment-item">
+            </div>
+            <div class="compartiment-item">
+                <img src="../../asset/image/icon/Monogram.svg" alt="foodIcon" class="compartiment-item-icon">
+                <p class="compartiment-item-name">Nom de l'aliment</p>
+                <p class="compartiment-item-date">Date de péremption</p>
+                <input type="radio" name="compartiment-item">
             </div>
         </div>
 
     </div>
 
+    </div>
+
     <script src="../../../dist/renderer/index.js"></script>
-    <script src="../../../dist/renderer/alerteList.js"></script>
+    <script src="../../../dist/renderer/compartiment.js"></script>
 </body>
 
 </html>

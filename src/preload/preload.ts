@@ -6,4 +6,5 @@ contextBridge.exposeInMainWorld('electron', {
     alerteGo : ()=> ipcRenderer.invoke('alerteGo'),
     back : ()=> ipcRenderer.invoke('back'),
     editContainerGo : ()=> ipcRenderer.invoke('editContainerGo'),
+    test: (test? : any)=> ipcRenderer.invoke('test', test),
 });

@@ -39,7 +39,7 @@ app.on('ready', () => {
   });
 
   ipcMain.handle('editContainerGo', async () => {
-    await mainWindow.loadFile(path.join(__dirname, '../../public/colloc/compartiment/edit/index.html'));
+    await mainWindow.loadFile(path.join(__dirname, '../../public/colloc/compartiment/index.html'));
   });
 
   ipcMain.handle('back', async () => {
@@ -48,6 +48,11 @@ app.on('ready', () => {
     dir.pop();
     const newPath = dir.join('/');
     mainWindow.loadFile(newPath + '/index.html');
+  });
+
+
+  ipcMain.handle('test', async (event,test) => {
+    console.log(test);
   });
 
 });
