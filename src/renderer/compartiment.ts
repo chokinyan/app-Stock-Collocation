@@ -14,6 +14,8 @@ document.addEventListener("DOMContentLoaded", () => {
                         (child as HTMLInputElement).checked ? child.checked = false : child.checked = true;
                     }
                 });
+                // @ts-ignore
+                window.electron.test();
             });
         }
     }
