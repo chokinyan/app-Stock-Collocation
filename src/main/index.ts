@@ -51,8 +51,20 @@ app.on('ready', () => {
   });
 
 
-  ipcMain.handle('test', async (event,test) => {
+  ipcMain.handle('test', async (_event,test) => {
     console.log(test);
+  });
+
+  ipcMain.handle('addItem', async (_event) => {
+    mainWindow.loadFile(path.join(__dirname, '../../public/colloc/compartiment/edit/addItem.html'));
+  });
+
+  ipcMain.handle('editItem', async (_event, item) => {
+    mainWindow.loadFile(path.join(__dirname, '../../public/colloc/compartiment/edit/editItem.html'));
+  });
+
+  ipcMain.handle('deleteItem', async (_event, item) => {
+    console.log(item);
   });
 
 });

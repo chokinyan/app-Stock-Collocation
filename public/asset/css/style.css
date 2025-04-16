@@ -147,7 +147,7 @@ body {
     padding: 2rem 1.5rem 2rem;
 }
 
-#alerte-header-title {
+#alerte-header-title,#compartiment-header-title {
     font-size: 64px;
     font-weight: 600;
     line-height: auto;
@@ -287,6 +287,15 @@ body {
 
 .compartiment-item input{
     pointer-events: none;
+}
+
+#search-item{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    flex-direction: row;
+    gap: 0.5rem;
 }
 
 /* Animation */

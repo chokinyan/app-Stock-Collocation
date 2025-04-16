@@ -1,21 +1,27 @@
+interface CompartimentItem {
+    id: number;
+    name: string;
+    description: string;
+    quantity: number;
+}
+
 document.addEventListener("DOMContentLoaded", () => {
 
-    let itemList: Array<string> = [];
-    let compartimentType : string = "Compartiment Frais";
+    let itemList: Array<CompartimentItem> = [];
+    let itemChecked: HTMLDivElement | undefined;
+    let compartimentType: string = "Compartiment Sec";
     const title = document.getElementById("compartiment-header-title");
 
     let htmlItemList: HTMLCollection = document.getElementsByClassName("compartiment-item");
     if (htmlItemList) {
-        for(let i = 0; i < htmlItemList.length; i++) {
+        for (let i = 0; i < htmlItemList.length; i++) {
             const item = htmlItemList.item(i) as HTMLDivElement;
             item.addEventListener("click", () => {
                 item.childNodes.forEach((child) => {
-                    if(child instanceof HTMLInputElement) {
-                        (child as HTMLInputElement).checked ? child.checked = false : child.checked = true;
+                    if (child instanceof HTMLInputElement) {
+                        (child as HTMLInputElement).checked ? () => { child.checked = false; itemChecked = undefined } : () => { child.checked = true; itemChecked = item };
                     }
                 });
-                // @ts-ignore
-                window.electron.test();
             });
         }
     }
@@ -24,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
         title.innerText = compartimentType;
     }
 
-    const compartimentButtonChoice: HTMLCollection = document.getElementsByClassName("compartiment-button-choice");
+    const compartimentButtonChoice: HTMLCollection = document.getElementsByClassName("compartiment-button");
     if (compartimentButtonChoice) {
         for (let i = 0; i < compartimentButtonChoice.length; i++) {
             const button = compartimentButtonChoice[i] as HTMLButtonElement;
@@ -35,6 +41,28 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             });
         }
+    }
+
+    const addItemBtn = document.getElementById("add-item-icon");
+    if (addItemBtn) {
+        addItemBtn.addEventListener("click", () => {
+            // @ts-ignore
+            window.electron.addItem();
+        });
+    }
+
+    const editItemBtn = document.getElementById("edit-item-icon");
+    if (editItemBtn) {
+        editItemBtn.addEventListener("click", () => {
+            if (itemChecked) {
+                // @ts-ignore
+                window.electron.editItem(itemId);
+            }
+        });
+    }
+
+    const deleteItemBtn = document.getElementById("delete-item-icon");
+    if (deleteItemBtn) {
     }
 
     const changeTitle = (name: string) => {
