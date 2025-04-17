@@ -1,10 +1,14 @@
-* {
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     flex-wrap: wrap;
     text-align: center;
     display: block;
+    z-index: 0;
 }
 
 button {
@@ -289,14 +293,93 @@ body {
     pointer-events: none;
 }
 
-#search-item{
+#search-item-container{
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 0.5rem 1rem;
     flex-direction: row;
+    justify-self: center;
+    align-self: center;
+    width: 651px;
+    height: 70px;
+    margin-top: 5rem;
+    padding: 0.5rem 1rem;
     gap: 0.5rem;
+    background-color: rgb(214, 208, 217);
+    filter: drop-shadow(0px 2px 4px black) brightness(1);
+    border-radius: 5px;
 }
+
+#search-item-input{
+    text-align: start;
+    border: none;
+    width: 90%;
+    height: 100%;
+    padding: 0.5rem 1rem;
+    font-size: 32px;
+    font-weight: 500;
+    background-color: rgb(214, 208, 217);
+    color: #381E72;
+    outline: none;
+}
+
+#search-item-input::placeholder {
+    color: #381E72;
+    opacity: 0.8;
+}
+
+#search-item-input:focus::placeholder {
+    color: transparent;
+}
+
+#search-item-icon {
+    width: 30px;
+    height: 30px;
+    background-color: transparent;
+    border: none;
+}
+
+#date-expiration-container{
+    width: 403px;
+    height: 162px;
+    background-color: #ece6f0;
+    display: flex;
+    flex-direction: column;
+    border-radius: 28px;
+}
+
+#date-expiration-input-container{
+    position: relative;
+}
+
+#date-expiration-input-container input{
+    width: 100%;
+    height: 100%;
+    background: transparent;
+}
+
+#date-expiration-input{
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    text-decoration: none;
+    font-size: 0;
+    pointer-events: none;
+}
+
+#date-expiration-input::-webkit-calendar-picker-indicator {
+    display: none;
+}
+
+#date-expiration-label{
+    color : #1d1b20;
+    font-size: 32px;
+    font-weight: 500;
+    letter-spacing: 0.1px;
+    border-bottom: #000 solid 1px;
+}
+
+
 
 /* Animation */
 

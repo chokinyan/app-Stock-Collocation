@@ -11,12 +11,30 @@
 
 <body>
 
-    <div id="search-item">
-
+    <div id="search-item-container">
+        <img src="../../../asset/image/icon/search.svg" alt="searchIcon" id="search-item-icon">
+        <input type="input" id="search-item-input" placeholder="Nom du produit ou code-barres" spellcheck="false"c>
     </div>
+
+    <div id="item-info-container">
+        <div id="date-expiration-container">
+            <!--Date de péremption-->
+            <div id="date-expiration-label">
+                <p>Date de péremption</p>
+            </div>
+            <div id="date-expiration-input-container">
+                <input type="text" placeholder="jj/mm/année" id="date-expiration-input-text" spellcheck="false" inputmode="numeric" accept="date" pattern="[0-9]">
+                <input type="date" id="date-expiration-input">
+            </div>
+        </div>
+        
+    </div>
+
+    <button id="Queque-what">Ajouter</button>
 
 
     <script src="../../../../dist/renderer/index.js"></script>
+    <script src="../../../../dist/renderer/changeItem.js"></script>
 </body>
 
 </html>
