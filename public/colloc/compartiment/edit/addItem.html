@@ -22,15 +22,17 @@
             <div id="date-expiration-label">
                 <p>Date de péremption</p>
             </div>
-            <div id="date-expiration-input-container">
-                <input type="text" placeholder="jj/mm/année" id="date-expiration-input-text" spellcheck="false" inputmode="numeric" accept="date" pattern="[0-9]">
-                <input type="date" id="date-expiration-input">
+            <div style="padding-left: 24px;padding-top: 18px;padding-bottom: 16px;padding-right: 24px;">
+                <div id="date-expiration-input-container">
+                    <input type="text" placeholder="année/mm/jj" id="date-expiration-input-text" spellcheck="false" inputmode="decimal" maxlength="10">
+                    <input type="date" id="date-expiration-input">
+                </div>
             </div>
         </div>
         
     </div>
 
-    <button id="Queque-what">Ajouter</button>
+    <button style="background-color: brown;" id="Queque-what">Ajouter</button>
 
 
     <script src="../../../../dist/renderer/index.js"></script>

@@ -1,15 +1,32 @@
 document.addEventListener("DOMContentLoaded", () => {
+    
+    document.addEventListener("mousemove", (event) => {
+        if(event.buttons === 1) {
+            const clickDiv = document.createElement("div");
+            clickDiv.className = "click";
+            clickDiv.style.top = `${event.clientY}px`;
+            clickDiv.style.left = `${event.clientX}px`;
+            document.body.appendChild(clickDiv);
+            setTimeout(() => {
+                clickDiv.remove();
+            }
+            , 200);
+        }
+    });
 
-    document.onmousedown = (event) => {
-        const clickDiv = document.createElement("div");
-        clickDiv.className = "click";
-        clickDiv.style.top = `${event.clientY}px`;
-        clickDiv.style.left = `${event.clientX}px`;
-        document.body.appendChild(clickDiv);
-        setTimeout(() => {
-            clickDiv.remove();
-        }, 200);
-    }
+    document.addEventListener("mousedown", (event) => {
+        if(event.button === 0) {
+            const clickDiv = document.createElement("div");
+            clickDiv.className = "click";
+            clickDiv.style.top = `${event.clientY}px`;
+            clickDiv.style.left = `${event.clientX}px`;
+            document.body.appendChild(clickDiv);
+            setTimeout(() => {
+                clickDiv.remove();
+            }
+            , 200);
+        }
+    });
 
     const helloMessage = document.getElementById("colloc-head");
     if (helloMessage) {

@@ -14,8 +14,15 @@ document.addEventListener("DOMContentLoaded", () => {
         dateTextInput.value = dateInput.value;
     });
 
+    dateTextInput.addEventListener("input", () => {
+        if(!/^[0-9-]/.test(dateTextInput.value.charAt(dateTextInput.value.length - 1))){
+            dateTextInput.value = dateTextInput.value.slice(0, -1);
+        }
+    });
+
     dateTextInput.addEventListener("blur", () => {
-        const date = new Date(dateTextInput.value).toISOString().split("T")[0];
+        const date = /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(dateTextInput.value) ? new Date(dateTextInput.value).toISOString().split("T")[0] : new Date().toISOString().split("T")[0];
+
         dateInput.value,dateTextInput.value = date;
     });
 });

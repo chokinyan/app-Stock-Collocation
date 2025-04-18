@@ -350,12 +350,30 @@ body {
 
 #date-expiration-input-container{
     position: relative;
+    border: #65558f solid 3px;
+    border-radius: 4px;
+    padding: 1rem;
+}
+
+#date-expiration-input-container::before{
+    content : 'Date';
+    position: absolute;
+    background-color: #ece6f0;
+    color: #65558F;
+    transform: translate(0, -150%);
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
 }
 
 #date-expiration-input-container input{
     width: 100%;
     height: 100%;
     background: transparent;
+    border: none;
+    text-align: start;
+    font-size: 32px;
+    font-weight: 500;
+    color: #381E72;
 }
 
 #date-expiration-input{
@@ -363,8 +381,16 @@ body {
     inset: 0;
     z-index: -1;
     text-decoration: none;
-    font-size: 0;
+    font-size: 0 !important;
     pointer-events: none;
+}
+
+#date-expiration-input-text::placeholder {
+    color: #000;
+    opacity: 0.8;
+    font-size: 32px;
+    font-weight: 600;
+
 }
 
 #date-expiration-input::-webkit-calendar-picker-indicator {
