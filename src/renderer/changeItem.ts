@@ -25,4 +25,5 @@ document.addEventListener("DOMContentLoaded", () => {
 
         dateInput.value,dateTextInput.value = date;
     });
+
 });

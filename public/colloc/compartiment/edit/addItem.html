@@ -13,7 +13,7 @@
 
     <div id="search-item-container">
         <img src="../../../asset/image/icon/search.svg" alt="searchIcon" id="search-item-icon">
-        <input type="input" id="search-item-input" placeholder="Nom du produit ou code-barres" spellcheck="false"c>
+        <input type="input" id="search-item-input" placeholder="Nom du produit ou code-barres" spellcheck="false" c>
     </div>
 
     <div id="item-info-container">
@@ -24,19 +24,31 @@
             </div>
             <div style="padding-left: 24px;padding-top: 18px;padding-bottom: 16px;padding-right: 24px;">
                 <div id="date-expiration-input-container">
-                    <input type="text" placeholder="année/mm/jj" id="date-expiration-input-text" spellcheck="false" inputmode="decimal" maxlength="10">
+                    <input type="text" placeholder="année/mm/jj" id="date-expiration-input-text" spellcheck="false"
+                        inputmode="decimal" maxlength="10">
                     <input type="date" id="date-expiration-input">
                 </div>
             </div>
         </div>
-        
-    </div>
 
-    <button style="background-color: brown;" id="Queque-what">Ajouter</button>
+        <div id="compartiment-container">
+            <select name="compartiment" id="select-compartiment">
+                <option value="" disabled selected>--Selectionner le compatiment--</option>
+                <option value="sec">Compartiment Sec</option>
+                <option value="frais">Compartiment Frais</option>
+            </select>
+        </div>
+
+        </div>
+
+        <div id="Button-Container">
+            <button id="add-item-button">Ajouter</button>
+            <button id="cancel-item-button" >Annuler</button>
+        </div>
 
 
-    <script src="../../../../dist/renderer/index.js"></script>
-    <script src="../../../../dist/renderer/changeItem.js"></script>
+        <script src="../../../../dist/renderer/index.js"></script>
+        <script src="../../../../dist/renderer/changeItem.js"></script>
 </body>
 
 </html>

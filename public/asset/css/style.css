@@ -151,7 +151,8 @@ body {
     padding: 2rem 1.5rem 2rem;
 }
 
-#alerte-header-title,#compartiment-header-title {
+#alerte-header-title,
+#compartiment-header-title {
     font-size: 64px;
     font-weight: 600;
     line-height: auto;
@@ -243,7 +244,7 @@ body {
     animation: dispawn 0.5s ease-in-out forwards;
 }
 
-#compartiment-main-container{
+#compartiment-main-container {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -253,7 +254,7 @@ body {
     gap: 18rem;
 }
 
-#compartiment-selector{
+#compartiment-selector {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -261,7 +262,7 @@ body {
     gap: 2rem;
 }
 
-.compartiment-button{
+.compartiment-button {
     --padding-button: 0.5rem 1rem;
     --width-button: 193px;
     --height-button: 70px;
@@ -270,7 +271,7 @@ body {
     gap: 0.75rem;
 }
 
-#compartiment-item-list{
+#compartiment-item-list {
     width: 744px;
     height: 577px;
     display: flex;
@@ -279,7 +280,7 @@ body {
     border: 2px solid #000;
 }
 
-.compartiment-item{
+.compartiment-item {
     display: flex;
     align-items: center;
     justify-content: start;
@@ -289,11 +290,11 @@ body {
     gap: 3.5rem;
 }
 
-.compartiment-item input{
+.compartiment-item input {
     pointer-events: none;
 }
 
-#search-item-container{
+#search-item-container {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -310,7 +311,7 @@ body {
     border-radius: 5px;
 }
 
-#search-item-input{
+#search-item-input {
     text-align: start;
     border: none;
     width: 90%;
@@ -339,7 +340,7 @@ body {
     border: none;
 }
 
-#date-expiration-container{
+#date-expiration-container {
     width: 403px;
     height: 162px;
     background-color: #ece6f0;
@@ -348,15 +349,15 @@ body {
     border-radius: 28px;
 }
 
-#date-expiration-input-container{
+#date-expiration-input-container {
     position: relative;
     border: #65558f solid 3px;
     border-radius: 4px;
     padding: 1rem;
 }
 
-#date-expiration-input-container::before{
-    content : 'Date';
+#date-expiration-input-container::before {
+    content: 'Date';
     position: absolute;
     background-color: #ece6f0;
     color: #65558F;
@@ -365,7 +366,7 @@ body {
     padding-right: 0.25rem;
 }
 
-#date-expiration-input-container input{
+#date-expiration-input-container input {
     width: 100%;
     height: 100%;
     background: transparent;
@@ -376,7 +377,7 @@ body {
     color: #381E72;
 }
 
-#date-expiration-input{
+#date-expiration-input {
     position: absolute;
     inset: 0;
     z-index: -1;
@@ -397,15 +398,66 @@ body {
     display: none;
 }
 
-#date-expiration-label{
-    color : #1d1b20;
+#date-expiration-label {
+    color: #1d1b20;
     font-size: 32px;
     font-weight: 500;
     letter-spacing: 0.1px;
     border-bottom: #000 solid 1px;
 }
 
+#item-info-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: start;
+    padding: 15vh 5vw;
+    gap: 46vw;
+}
 
+#select-compartiment {
+    padding: 1.25vh 1.25vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border: none;
+    background-color: #fff;
+    border-radius: 8px;
+}
+
+#select-compartiment option {
+    background-color: #fff;
+    color: #381E72;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+#Button-Container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row-reverse;
+    gap: 5rem;
+}
+
+#add-item-button{
+    background-color: #14AE5C;
+    color: #EBFFEE;
+    border-radius: 8px;
+    padding: 2vh 2.5vw;
+    font-size: 70px;
+    font-weight: 500;
+}
+
+#cancel-item-button{
+    background-color: #EC221F;
+    color: #FEE9E7;
+    border-radius: 8px;
+    padding: 2vh 2.5vw;
+    font-size: 70px;
+    font-weight: 500;
+}
 
 /* Animation */
 
@@ -419,4 +471,3 @@ body {
         display: none;
     }
 }
-

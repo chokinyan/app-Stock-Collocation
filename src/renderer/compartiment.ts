@@ -19,7 +19,14 @@ document.addEventListener("DOMContentLoaded", () => {
             item.addEventListener("click", () => {
                 item.childNodes.forEach((child) => {
                     if (child instanceof HTMLInputElement) {
-                        (child as HTMLInputElement).checked ? () => { child.checked = false; itemChecked = undefined } : () => { child.checked = true; itemChecked = item };
+                        if (child.checked) {
+                            itemChecked = undefined;
+                            child.checked = false;
+                        }
+                        else {
+                            itemChecked = item;
+                            child.checked = true;
+                        }
                     }
                 });
             });
