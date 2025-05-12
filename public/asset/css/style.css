@@ -4,8 +4,6 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-    flex-wrap: wrap;
     text-align: center;
     display: block;
     z-index: 0;
@@ -38,17 +36,24 @@ body {
     cursor: pointer;
 }
 
+.click {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background: none;
+    border: #381E72 solid 2px;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    pointer-events: none;
+}
+
 #colloc-head-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 20rem;
-    padding-top: 2.5rem;
-    padding-bottom: 2.5rem;
-}
-
-#disconnect-button {
-    padding: 0.2rem;
+    padding: 2rem 5vw 2rem;
+    gap: 30vw;
 }
 
 #colloc-notification {
@@ -59,28 +64,34 @@ body {
 }
 
 #colloc-head {
-    text-align: center;
     font-size: 32px;
     font-weight: 600;
     line-height: auto;
     letter-spacing: 0;
+    text-align: center;
     color: #381E72;
 }
 
-
-#colloc-body-container {
-    padding-top: 10rem;
+#colloc-notification-container {
     display: flex;
-    gap: 25rem;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: 2rem;
+}
+
+#colloc-body-container {
+    padding: 20vh 5vw 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 26.5vw;
 }
 
 #colloc-footer-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 20rem;
     padding-top: 10rem;
 }
 
@@ -114,51 +125,46 @@ body {
     height: 221px;
 }
 
-
-.click {
-    position: absolute;
-    width: 30px;
-    height: 30px;
-    background: none;
-    border: #381E72 solid 2px;
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 1000;
-    pointer-events: none;
+.back-button {
+    --width-button: 5em;
+    --height-button: 10vh;
+    --border-radius: 10px;
+    --font-size: 64px;
 }
 
-.return-button-info {
-    --padding: 1rem 0.75rem;
-    --border-radius: 10px;
+.back-button img {
+    width: 50px;
+    height: 50px;
 }
 
 .alerte-button {
     background-color: #EC221F;
     border-radius: var(--border-radius);
-    padding: var(--padding);
     border: #C00F0C solid 1px;
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 0.75rem;
     color: #FEE9E7;
-    font-size: 32px;
+    font-size: var(--font-size);
+    width: var(--width-button);
+    height: var(--height-button);
 }
 
 #alerte-header {
     display: flex;
     align-items: center;
-    padding: 2rem 1.5rem 2rem;
+    padding: 2rem 3.5rem 2rem;
 }
 
 #alerte-header-title,
 #compartiment-header-title {
-    font-size: 64px;
+    font-size: 84px;
     font-weight: 600;
     line-height: auto;
     letter-spacing: 0;
     color: #381E72;
-    padding-left: 24rem;
+    padding-left: 6em;
 }
 
 #alerte-buttons-choice-container {
@@ -166,12 +172,12 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    gap: 5rem;
+    gap: 7vh;
 }
 
 .alerte-button-choice {
-    --width-button: 197px;
-    --height-button: 56px;
+    --width-button: 20em;
+    --height-button: 10vh;
     --padding-button: 0;
     display: flex;
     flex-direction: row;
@@ -181,15 +187,15 @@ body {
 }
 
 .alerte-button-choice p {
-    font-size: 18px;
+    font-size: 24px;
     line-height: 20px;
     letter-spacing: 0.1px;
     font-weight: 500;
 }
 
 .alerte-button-choice img {
-    width: 22px;
-    height: 18px;
+    width: 33px;
+    height: 27px;
 }
 
 .choice-button {
@@ -209,14 +215,14 @@ body {
     display: flex;
     justify-content: start;
     align-items: center;
-    padding: 4rem 2rem;
-    gap: 17rem;
+    padding: 2rem 3.5rem 2rem;
+    gap: 14rem;
 }
 
 #alerte-content-container {
     display: flex;
-    width: 744px;
-    height: 577px;
+    width: 90%;
+    height: 72vh;
     flex-direction: column;
     border: 3px solid black;
 }
@@ -404,6 +410,7 @@ body {
     font-weight: 500;
     letter-spacing: 0.1px;
     border-bottom: #000 solid 1px;
+    padding: 1rem;
 }
 
 #item-info-container {
@@ -411,7 +418,7 @@ body {
     flex-direction: row;
     align-items: center;
     justify-content: start;
-    padding: 15vh 5vw;
+    margin: 0 5vw;
     gap: 46vw;
 }
 
@@ -433,7 +440,7 @@ body {
     font-weight: 500;
 }
 
-#Button-Container{
+#Button-Container {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -441,7 +448,7 @@ body {
     gap: 5rem;
 }
 
-#add-item-button{
+#add-item-button {
     background-color: #14AE5C;
     color: #EBFFEE;
     border-radius: 8px;
@@ -450,7 +457,7 @@ body {
     font-weight: 500;
 }
 
-#cancel-item-button{
+#cancel-item-button {
     background-color: #EC221F;
     color: #FEE9E7;
     border-radius: 8px;
