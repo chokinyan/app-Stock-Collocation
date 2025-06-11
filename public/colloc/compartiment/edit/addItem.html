@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="../../../asset/css/style.css">
+    <link rel="stylesheet" href="../../../asset/kiosk/dist/kioskboard-2.3.0.min.css">
+    <script src="../../../asset/kiosk/dist/kioskboard-2.3.0.min.js"></script>
     <title>Colloc</title>
 </head>
 
@@ -13,7 +15,17 @@
 
     <div id="search-item-container">
         <img src="../../../asset/image/icon/search.svg" alt="searchIcon" id="search-item-icon">
-        <input type="input" id="search-item-input" placeholder="Nom du produit ou code-barres" spellcheck="false" c>
+        <input id="search-item-input" class="js-kioskboard-input" data-kioskboard-type="numpad"
+            data-kioskboard-placement="bottom" placeholder="code-barres du produit" spellcheck="false" maxlength="13">
+    </div>
+
+    <div class="item-found-container">
+        <div id="item-info-image">
+            <img alt="" id="item-image">
+        </div>
+        <div id="item-info-name">
+            <p id="item-name"></p>
+        </div>
     </div>
 
     <div id="item-info-container">
@@ -43,7 +55,7 @@
 
     <div id="Button-Container">
         <button id="add-item-button">Ajouter</button>
-        <button id="cancel-item-button">Annuler</button>
+        <button id="cancel-item-button" class="back-button">Annuler</button>
     </div>
 
 
