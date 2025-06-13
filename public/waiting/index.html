@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Chargement de l'application veuillez patienter</title>
+    <style>
+        body {
+            background: #f9f9f9;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .spinner {
+            width: 80px;
+            height: 80px;
+            border: 10px solid #e0e0e0;
+            border-top: 10px solid #3498db;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Chargement de l'application, veuillez patienter...</h1>
+    <div class="spinner" aria-label="Loading"></div>
+</body>
+
+<script src="../../dist/renderer/loading.js"></script>
+
+</html>

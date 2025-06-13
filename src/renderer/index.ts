@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         const currentHour = new Date().getHours();
         //@ts-ignore
         window.user.info()
-            .then((info: { nom: string, prenom: string, alerte: [] }) => { 
+            .then((info: { nom: string, prenom: string, alerte: [] }) => {
                 if (5 < currentHour && currentHour < 17) {
                     helloMessage.innerText = `Bonjour ${info.prenom} ${info.nom}`;
                 } else {
@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (alerteBtn) {
         alerteBtn.addEventListener("click", () => {
             // @ts-ignore
-            window.navigation.alerteGo();
+            window.nav.alerteGo();
         });
     }
 
@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         Array.from(backBtn).forEach((btn) => {
             btn.addEventListener("click", () => {
                 // @ts-ignore
-                window.navigation.back();
+                window.nav.back();
             });
         });
     }
@@ -78,10 +78,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (editContainerBtn) {
         editContainerBtn.addEventListener("click", () => {
             // @ts-ignore
-            window.navigation.editContainerGo();
+            window.nav.editContainerGo();
         });
     }
-
 
     const temperatureText = document.getElementById("Temparature") as HTMLParagraphElement;
     if (temperatureText) {
@@ -100,6 +99,24 @@ document.addEventListener("DOMContentLoaded", async () => {
                 })
                 .catch((err: any) => console.error(err))
         }, 2000)
+    }
+
+    const openDoorBtn = document.getElementById("openCompartiment");
+    if (openDoorBtn) {
+        // @ts-ignore
+        window.api.openDoor()
+            .then((value: any) => {
+                console.log(value);
+            })
+            .catch((err: any) => console.error(err));
+        openDoorBtn.addEventListener("click", () => {
+            // @ts-ignore
+            window.api.openDoor()
+                .then((value : any) => {
+                    console.log(value);
+                })
+                .catch((err: any) => console.error(err));
+        });
     }
 
 });

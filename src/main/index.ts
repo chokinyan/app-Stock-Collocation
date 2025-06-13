@@ -1,14 +1,16 @@
-import { app, BrowserWindow, contextBridge, ipcMain, ipcRenderer } from 'electron';
+import { app, BrowserWindow, ipcMain } from 'electron';
 import KioskBoard from 'kioskboard';
 import path from 'path';
-import os from 'os';
-import axios from 'axios';
+import subProcess from 'child_process';
+import axios, {AxiosResponse} from 'axios';
 
 let token: string = "";
-let userInfo: { nom: string, prenom: string, alerte: [] } = {
+const pythonProcess: subProcess.ChildProcess = subProcess.exec('./python-env/bin/python -u ./main_page_login_finish/app.py');
+
+let userInfo: { id: number, nom: string, prenom: string } = {
   nom: '',
   prenom: '',
-  alerte: []
+  id: 0
 };
 let mainWindow: BrowserWindow;
 
@@ -30,24 +32,57 @@ function createWindow() {
 
   // Charge le fichier HTML
   //mainWindow.removeMenu();
-  mainWindow.loadFile(path.join(__dirname, '../../public/index.html'));
+  mainWindow.loadFile(path.join(__dirname, '../../public/waiting/index.html'));
 }
 
 
 app.on('ready', () => {
   createWindow();
 
-  ipcMain.handle('connect', async () => {
-    const rep = await axios.post("http://localhost:3000/Authentification", {
-      "action": "login",
-      "user": "test",
-      "password": "admin"
-    });
+  ipcMain.handle('connect', async (_,type,data) => {
+
+    let rep : AxiosResponse<any, any>;
+
+
+    console.log(type, data);
+
+    switch (type) {
+      case 'rfid':
+        /*await mainWindow.loadFile(path.join(__dirname, '../../public/colloc/rfid/index.html'));*/
+        rep = await axios.post("http://localhost:3000/Authentification", {
+          "action": "rfid",
+          "rfid": data,
+        });
+        break;
+      case 'visage':
+        //await mainWindow.loadFile(path.join(__dirname, '../../public/colloc/visage/index.html'));
+        rep = await axios.post("http://localhost:3000/Authentification", {
+          "action": "visage",
+          "visage": data
+        });
+        break;
+      case 'pin':
+        //await mainWindow.loadFile(path.join(__dirname, '../../public/colloc/pin/index.html'));
+        rep = await axios.post("http://localhost:3000/Authentification", {
+          "action": "pin",
+          "code": data
+        });
+        break;
+      default:
+        console.error('Type de connexion non supporté');
+        return;
+    }
+
+
+
     if (rep.data.token && rep.data.token !== "") {
       console.log(rep.data);
       token = rep.data.token;
-      userInfo.nom = rep.data.nom;
-      userInfo.prenom = rep.data.prenom;
+      userInfo = {
+        id: Number(rep.data.id),
+        nom: rep.data.nom,
+        prenom: rep.data.prenom
+      }
       await mainWindow.loadFile(path.join(__dirname, '../../public/colloc/index.html'));
     }
 
@@ -63,12 +98,12 @@ app.on('ready', () => {
     token = "";
 
     userInfo = {
+      id: 0,
       nom: "",
-      prenom: "",
-      alerte: []
+      prenom: ""
     };
 
-    await mainWindow.loadFile(path.join(__dirname, '../../public/index.html'));
+    await mainWindow.loadURL('http://localhost:5000');
   });
 
   ipcMain.handle('alerteGo', async () => {
@@ -80,18 +115,7 @@ app.on('ready', () => {
   });
 
   ipcMain.handle('back', async () => {
-    const dir: string[] = mainWindow.webContents.getURL().replace('file:///', '').split('/');
-    dir.pop();
-    dir.pop();
-    let newPath: string = "";
-    for (const name of dir) {
-      if (name === os.userInfo().username || name === 'home' || name === 'Users' || name === 'Documents' || name === 'Desktop' || name === 'Downloads' || name === 'Pictures' || name === 'Videos' || name === 'Music' || name === 'app-Stock-Collocation') {
-        continue;
-      }
-      newPath += name + '/';
-    }
-
-    mainWindow.loadFile(newPath + 'index.html');
+    mainWindow.webContents.navigationHistory.goBack();
   });
 
 
@@ -108,7 +132,17 @@ app.on('ready', () => {
   });
 
   ipcMain.handle('deleteItem', async (_event, item) => {
-    console.log(item);
+    await axios.delete(`http://localhost:3000/Item`, {
+      data: {
+        token: token,
+        id: item,
+      }
+    }).then(response => {
+      console.log('Item deleted successfully:', response.data);
+    }
+    ).catch(error => {
+      console.error('Error deleting item:', error);
+    });
   });
 
   ipcMain.handle('searchItem', async (_event, search) => {
@@ -132,19 +166,62 @@ app.on('ready', () => {
 
   ipcMain.handle('temperature', async () => {
     const temp = await axios.get(`http://localhost:3000/Temperature?token=${token}`);
-    if(temp.data){
+    if (temp.data) {
       return temp.data;
     }
   });
 
-  ipcMain.handle('userInfo',()=>{
+  ipcMain.handle('userInfo', () => {
     return userInfo;
-  })
+  });
 
+  ipcMain.handle('getAlerteListe', async () => {
+    const alerte = await axios.get(`http://localhost:3000/alerte`);
+    if (alerte.data) {
+      return alerte.data[userInfo.id - 1] || [[], []]; // Retourne les alertes pour l'utilisateur, ou un tableau vide si aucune alerte
+    }
+  });
+
+  ipcMain.handle('getItemListe', async (_event, compartiment: "sec" | "frais") => {
+    const items = await axios.get(`http://localhost:3000/Item?token=${token}&compartiement=${compartiment}`, {
+    });
+    if (items.data) {
+      return items.data;
+    }
+  });
+
+  ipcMain.handle('addItemToContainer', async (_event, item) => {
+    const rep = await axios.post(`http://localhost:3000/Item`, {
+      token: token,
+      name: item.name,
+      container: item.compartiment,
+      expire: item.expirationDate,
+      image: item.image
+    });
+    return rep.data;
+  });
+
+  ipcMain.handle('openDoor', async () => {
+    const rep = await axios.post(`http://localhost:3000/EtatPorte`, {
+      token: token,
+      etat: 1
+    });
+    return rep.data;
+  });
+
+  ipcMain.handle('loadConnection', async () => {
+    mainWindow.loadURL('http://localhost:5000');
+  });
+
+});
+
+pythonProcess.stdout?.on('data', (data) => {
+  console.log(`stdout: ${data}`);
 });
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
+    pythonProcess.kill(0);
     app.quit();
   }
 });
@@ -153,4 +230,38 @@ app.on('activate', () => {
   if (BrowserWindow.getAllWindows().length === 0) {
     createWindow();
   }
+});
+
+process.on('exit', () => {
+  if (pythonProcess && !pythonProcess.killed) {
+    pythonProcess.kill(0);
+  }
+});
+
+process.on('uncaughtException', (error) => {
+  console.error('Uncaught Exception:', error);
+  pythonProcess.kill(0);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+  pythonProcess.kill(0);
+});
+
+process.on('exit', (code) => {
+  console.log(`Process exited with code: ${code}`);
+  pythonProcess.kill(0);
+});
+
+process.on('SIGINT', () => {
+  console.log('Process interrupted (SIGINT)');
+  pythonProcess.kill(0);
+});
+
+process.on('SIGTERM', () => {
+  console.log('Process terminated (SIGTERM)');
+  if (pythonProcess && !pythonProcess.killed) {
+    pythonProcess.kill('SIGTERM');
+  }
+  process.exit(0);
 });

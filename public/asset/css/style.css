@@ -90,17 +90,26 @@ body {
 
 #colloc-footer-container {
     display: flex;
+    flex-direction: column;
+    width: 100%;
     justify-content: center;
     align-items: center;
-    padding-top: 5rem;
+    padding-top: 2rem;
 }
 
 #colloc-footer-container p {
-    font-size: 40px;
     font-weight: 600;
     line-height: auto;
     letter-spacing: 0;
     color: black;
+}
+
+.Etat-compartiment {
+    font-size: 35px;
+}
+
+#Temparature {
+    font-size: 40px;
 }
 
 .default-button {
@@ -118,9 +127,22 @@ body {
     text-align: center;
 }
 
-.colloc-button {
+#openCompartiment {
     width: 285px;
     height: 165.75px;
+}
+
+#openCompartiment p {
+    color: #f5f5f5 !important;;
+}
+
+.colloc-button {
+    width: 285px;
+    height: 150px;
+}
+
+.colloc-button p {
+    color: white;
 }
 
 .back-button {
@@ -480,7 +502,7 @@ body {
     font-weight: 500;
 }
 
-.item-found-container{
+.item-found-container {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -489,19 +511,42 @@ body {
     padding: 2rem 5vw 0.25rem;
 }
 
-#item-image{
+#item-image {
     width: 120px;
     height: 120px;
     border-radius: 10px;
-    object-fit: fill;
+    object-fit: cover;
 }
 
-#item-name{
+#item-name {
     font-size: 32px;
     font-weight: 600;
     line-height: auto;
     letter-spacing: 0;
     color: #381E72;
+}
+
+#item-name-label {
+    font-size: 20px;
+    font-weight: 500;
+    line-height: auto;
+    letter-spacing: 0;
+    color: #381E72;
+}
+
+#item-info-name {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    width: 80%;
+    padding: 0rem 3rem;
+}
+
+.disabled {
+    pointer-events: none;
+    opacity: 0.35;
 }
 
 /* Animation */

@@ -21,10 +21,11 @@
 
     <div class="item-found-container">
         <div id="item-info-image">
-            <img alt="" id="item-image">
+            <img alt="" id="item-image" src="../../../asset/image/icon/Monogram.svg">
         </div>
         <div id="item-info-name">
-            <p id="item-name"></p>
+            <p id="item-name-label">Veuillez renseignez le nom du produit, si le produit n'a pas de code barre ou si aucun nom n'est trouvé apres avoir tapé le code barre</p>
+            <input id="item-name" type="text" placeholder="Nom du produit" spellcheck="false" inputmode="text">
         </div>
     </div>
 
@@ -54,7 +55,7 @@
     </div>
 
     <div id="Button-Container">
-        <button id="add-item-button">Ajouter</button>
+        <button id="add-item-button" class="disabled">Ajouter</button>
         <button id="cancel-item-button" class="back-button">Annuler</button>
     </div>
 

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Collocation</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <video id="background-video" autoplay muted loop></video>
+    <div class="colloc">
+        <h1>Stock Collocation</h1>
+        <div class="settings">
+            <button class="settings-button"><img src="images/settings.png" alt="settings"></button>
+        </div>
+        <div class="temperature"
+            data-weather-api="https://api.openweathermap.org/data/2.5/weather?lat=47.750&lon=7.333&appid=35d18c7aea38ce3e7e9234396e5f3c18">
+        </div>
+    </div>
+    <div class="connexion">
+        <div class="header-container">
+            <button class="back-button"><img src="images/back-arrow.png" alt="revenir"></button>
+            <h2>Bienvenue!<br> Veuillez choisir une méthode de connexion.</h2>
+        </div>
+        <div class="button-container">
+            <button class="photo-button" style="position: relative;">
+                <img class="photo-icon" src="images/photo.png" alt="photo">
+                <img id="cameraFeed" src="" alt="Caméra" style="display:none;">
+            </button>
+            <button class="rfid-button">
+                <img src="images/rfid-chip.png" alt="rfid">
+            </button>
+            <button class="pin-button">
+                <img src="images/pin-code.png" alt="pin">
+            </button>
+            <div class="pin-input-container">
+                <input type="password" class="pin-input" placeholder="Entrez votre PIN" maxlength="4" readonly>
+                <div class="virtual-keyboard">
+                    <div class="keyboard-row">
+                        <button class="key-btn" data-key="1">1</button>
+                        <button class="key-btn" data-key="2">2</button>
+                        <button class="key-btn" data-key="3">3</button>
+                    </div>
+                    <div class="keyboard-row">
+                        <button class="key-btn" data-key="4">4</button>
+                        <button class="key-btn" data-key="5">5</button>
+                        <button class="key-btn" data-key="6">6</button>
+                    </div>
+                    <div class="keyboard-row">
+                        <button class="key-btn" data-key="7">7</button>
+                        <button class="key-btn" data-key="8">8</button>
+                        <button class="key-btn" data-key="9">9</button>
+                    </div>
+                    <div class="keyboard-row">
+                        <button class="key-btn clear-btn">Effacer</button>
+                        <button class="key-btn" data-key="0">0</button>
+                        <button class="key-btn enter-btn">Entrer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="time">
+        <div class="clock"></div>
+        <div class="date"></div>
+    </div>
+    <script src="main.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,542 @@
+body {
+    background: linear-gradient(90deg, #b9deed, #efefef);
+    color: white;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+.colloc {
+    text-align: center;
+    font-size: 32px;
+    margin-bottom: 25px;
+    padding-top: 15px;
+}
+
+.settings {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 100;
+}
+
+#background-video {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -1000;
+    object-fit: cover;
+}
+
+.settings-button {
+    border: none;
+    background-color: transparent;
+}
+
+h1,
+h2,
+.clock,
+.date {
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.8);
+}
+
+.photo-button img,
+.rfid-button img,
+.pin-button img {
+    filter: brightness(5) invert(1);
+    width: 120px;
+    height: 120px;
+}
+
+.back-button img,
+.settings-button img {
+    filter: invert(1);
+    width: 40px;
+    height: 40px;
+}
+
+.photo-button .photo-icon {
+    filter: brightness(5) invert(1);
+}
+
+#cameraFeed {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    filter: none !important;
+    width: 260px !important;
+    height: 195px !important;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.photo-button.active #cameraFeed {
+    display: block;
+    z-index: 5;
+    background: transparent;
+    border: none;
+    margin-top: -10px;
+}
+
+.photo-button img:not(#cameraFeed),
+.rfid-button img:not(#cameraFeed),
+.pin-button img:not(#cameraFeed) {
+    filter: brightness(1) invert(1);
+}
+
+.photo-button:hover img:not(#cameraFeed),
+.pin-button:hover img:not(#cameraFeed),
+.rfid-button:hover img:not(#cameraFeed) {
+    filter: brightness(5) invert(1) drop-shadow(0 0 10px rgba(255, 255, 255, 0.7));
+    transform: scale(1.05);
+    transition: all 0.2s ease;
+}
+
+.connexion {
+    position: relative;
+    font-size: 22px;
+    margin-top: 8vh;
+    text-align: center;
+    background: rgba(172, 169, 169, 0.4);
+    backdrop-filter: blur(15px);
+    border-radius: 20px;
+    padding: 25px 30px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    min-height: 200px;
+}
+
+.photo-button,
+.rfid-button,
+.pin-button {
+    border: none;
+    background-color: transparent;
+    transition: all 0.5s ease-in-out;
+    position: relative;
+    z-index: 1;
+    cursor: pointer;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    padding: 0;
+}
+
+.button-container {
+    position: relative;
+    transition: all 0.5s ease-in-out;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 8rem;
+    margin-bottom: 80px;
+    margin-top: 40px;
+    min-height: 150px;
+}
+
+.button-container.has-active .photo-button.active,
+.button-container.has-active .pin-button.active,
+.button-container.has-active .rfid-button.active {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%) scale(1.1);
+    z-index: 10;
+    transition: all 0.5s ease-in-out;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+}
+
+.button-container.has-active .photo-button:not(.active),
+.button-container.has-active .pin-button:not(.active),
+.button-container.has-active .rfid-button:not(.active) {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+}
+
+.header-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+    height: 70px;
+    padding-top: 10px;
+}
+
+.back-button {
+    display: none;
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    z-index: 30;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    padding: 8px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s;
+    transform: scale(1.2);
+}
+
+.button-container.has-active .back-button {
+    display: block;
+}
+
+.back-button:hover {
+    background: rgba(0, 0, 0, 0.5);
+    transform: scale(1.3);
+}
+
+.header-container h2 {
+    margin-top: 15px;
+    padding-left: 60px;
+    padding-right: 20px;
+    font-size: 1.2em;
+    /* Réduit de 1.4em à 1.2em */
+}
+
+/* Container du PIN - z-index augmenté pour être au-dessus de l'heure */
+.pin-input-container {
+    display: none;
+    position: absolute;
+    top: 125%;
+    /* Augmenté de 115% à 125% pour descendre encore */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    flex-direction: column;
+    align-items: center;
+    z-index: 150;
+    width: 100%;
+    max-width: 300px;
+    /* Réduit de 350px à 300px */
+    margin: 0 auto;
+    border-radius: 15px;
+    padding: 20px 0;
+    /* Réduit de 25px à 20px */
+    background: rgba(172, 169, 169, 0.6);
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Afficher le PIN quand le bouton PIN est actif */
+.pin-button.active+.pin-input-container {
+    display: flex;
+}
+
+.pin-input {
+    padding: 8px;
+    /* Réduit de 12px à 8px pour diminuer la hauteur */
+    font-size: 24px;
+    /* Augmenté de 18px à 24px pour agrandir la police */
+    text-align: center;
+    letter-spacing: 4px;
+    width: 70%;
+    margin-bottom: 25px;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.9);
+    color: #333;
+    cursor: pointer;
+    min-height: 35px;
+    /* Réduit de 45px à 35px pour diminuer la hauteur */
+    line-height: 1;
+    /* Ajout pour compacter verticalement */
+}
+
+.virtual-keyboard {
+    position: relative;
+    z-index: 160;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    /* Réduit de 14px à 12px */
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(15px);
+    border-radius: 18px;
+    /* Réduit de 20px à 18px */
+    padding: 20px 15px;
+    /* Réduit de 25px 20px à 20px 15px */
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    max-width: 320px;
+    /* Réduit de 360px à 320px */
+}
+
+.keyboard-row {
+    display: flex;
+    gap: 12px;
+    /* Augmenté de 10px à 12px */
+    justify-content: center;
+}
+
+.key-btn,
+.clear-btn,
+.enter-btn {
+    width: 60px;
+    /* Augmenté de 55px à 60px */
+    height: 60px;
+    /* Augmenté de 55px à 60px */
+    border-radius: 14px;
+    /* Augmenté de 12px à 14px */
+    font-size: 22px;
+    /* Augmenté de 20px à 22px */
+    margin: 0;
+    padding: 0;
+    border: none;
+    font-weight: bold;
+    transition: all 0.2s;
+    background: rgba(255, 255, 255, 0.9);
+    color: #333;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.key-btn:hover,
+.clear-btn:hover,
+.enter-btn:hover {
+    background: rgba(255, 255, 255, 1);
+    transform: scale(1.05);
+    box-shadow: 0 6px 15px rgba(255, 255, 255, 0.4);
+}
+
+.clear-btn {
+    background: #ff6464;
+    color: #fff;
+    font-size: 16px;
+    /* Réduit de 18px à 16px pour que le texte rentre mieux */
+}
+
+.enter-btn {
+    background: #4be04b;
+    color: #fff;
+    font-size: 16px;
+    /* Réduit de 18px à 16px pour que le texte rentre mieux */
+}
+
+/* Ne pas cacher le header text, mais le rendre semi-transparent */
+.button-container.has-active .header-container {
+    opacity: 0.4;
+    /* Changé de 0.3 à 0.4 pour plus de visibilité */
+    display: flex;
+    /* S'assurer qu'il reste visible */
+}
+
+/* Suppression complète de l'heure quand le mode PIN est actif */
+.pin-button.active~.pin-input-container~.time,
+.button-container.has-active~.time {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+}
+
+/* Forcer la suppression de l'heure avec une règle plus spécifique */
+body .pin-button.active~.pin-input-container~.time,
+body .button-container.has-active~.time,
+.connexion.pin-mode~.time {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    z-index: -1000 !important;
+}
+
+/* Règle alternative si la structure HTML ne permet pas les sélecteurs précédents */
+.time.hidden {
+    display: none !important;
+    visibility: hidden !important;
+}
+
+/* HEURE ET DATE - POSITION FIXE EN BAS */
+.time {
+    position: fixed;
+    bottom: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    z-index: 100;
+}
+
+.clock {
+    color: white;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.8);
+    font-size: 42px;
+    font-weight: bold;
+    margin: 8px 0;
+}
+
+.date {
+    color: white;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.8);
+    font-size: 28px;
+    font-weight: bold;
+    margin: 8px 0;
+}
+
+/* MÉTÉO - POSITION FIXE EN HAUT À GAUCHE */
+.temperature {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 100;
+}
+
+.weather-display {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 18px;
+    padding: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.weather-icon {
+    width: 45px;
+    height: 45px;
+    margin-right: 12px;
+}
+
+.weather-info p {
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.8);
+}
+
+.rfid-button.checking {
+    opacity: 0.7;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 0.7;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0.7;
+    }
+}
+
+/* Media queries pour très petits écrans */
+@media (max-width: 480px) {
+    .colloc {
+        font-size: 24px;
+        padding-top: 10px;
+    }
+
+    .connexion {
+        font-size: 20px;
+        padding: 20px;
+        margin-top: 5vh;
+        max-width: 90%;
+        min-height: 200px;
+    }
+
+    .button-container {
+        gap: 6rem;
+        margin-bottom: 60px;
+        margin-top: 30px;
+    }
+
+    .photo-button img,
+    .rfid-button img,
+    .pin-button img {
+        width: 90px;
+        height: 90px;
+    }
+
+    .clock {
+        font-size: 32px;
+    }
+
+    .date {
+        font-size: 22px;
+    }
+
+    .pin-input-container {
+        top: 110%;
+        /* Descendu de 90% à 110% pour mobile */
+        max-width: 85%;
+        /* Réduit de 95% à 85% */
+        padding: 15px 5px;
+        /* Réduit encore plus */
+    }
+
+    .pin-input {
+        font-size: 20px;
+        /* Augmenté de 16px à 20px pour garder une bonne lisibilité */
+        padding: 6px;
+        /* Réduit de 10px à 6px */
+        min-height: 28px;
+        /* Réduit de 35px à 28px */
+        width: 70%;
+        line-height: 1;
+        /* Ajout pour compacter verticalement */
+    }
+
+    .virtual-keyboard {
+        max-width: 260px;
+        /* Réduit de 280px à 260px */
+        padding: 15px 10px;
+        /* Réduit légèrement */
+        gap: 10px;
+        /* Réduit de 12px à 10px */
+    }
+
+    .key-btn,
+    .clear-btn,
+    .enter-btn {
+        width: 50px;
+        /* Augmenté de 45px à 50px */
+        height: 50px;
+        /* Augmenté de 45px à 50px */
+        font-size: 18px;
+        /* Augmenté de 16px à 18px */
+    }
+
+    .clear-btn,
+    .enter-btn {
+        font-size: 11px;
+        /* Réduit de 12px à 11px */
+    }
+
+    .keyboard-row {
+        gap: 10px;
+        /* Augmenté de 8px à 10px */
+    }
+
+    .weather-info p {
+        font-size: 16px;
+    }
+
+    .back-button {
+        top: 10px;
+        left: 10px;
+        transform: scale(1);
+    }
+
+    .header-container h2 {
+        margin-top: 20px;
+        padding-left: 50px;
+        padding-right: 15px;
+        font-size: 16px;
+        /* Réduit de 18px à 16px pour mobile */
+    }
+}
