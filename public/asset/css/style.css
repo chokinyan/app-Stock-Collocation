@@ -249,7 +249,7 @@ body {
     overflow-y: scroll;
 }
 
-.Alerte-item {
+.user-item {
     display: flex;
     align-items: center;
     justify-content: start;
@@ -259,13 +259,20 @@ body {
     gap: 3.5rem;
 }
 
-.Alerte-item p {
-    font-size: 16px;
+.user-item p {
+    font-size: 23px;
 }
 
-.Alerte-item img {
-    width: 40px;
-    height: 40px;
+.user-item img {
+    object-fit:contain ;
+    width: 60px;
+    height: 60px;
+}
+
+.user-item input[type="radio"] {
+    pointer-events: none;
+    width: 25px;
+    height: 25px;
 }
 
 .dispawn {

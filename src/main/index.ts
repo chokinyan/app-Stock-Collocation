@@ -2,11 +2,13 @@ import { app, BrowserWindow, ipcMain } from 'electron';
 import KioskBoard from 'kioskboard';
 import path from 'path';
 import subProcess from 'child_process';
-import axios, {AxiosResponse} from 'axios';
+import axios, { AxiosResponse } from 'axios';
 
 let token: string = "";
-const pythonProcess: subProcess.ChildProcess = subProcess.exec('./python-env/bin/python -u ./main_page_login_finish/app.py');
 
+var pythonProcess: subProcess.ChildProcess;
+
+//'./python-env/bin/python -u ./main_page_login_finish/app.py'
 let userInfo: { id: number, nom: string, prenom: string } = {
   nom: '',
   prenom: '',
@@ -25,13 +27,21 @@ function createWindow() {
       preload: path.join(__dirname, '../preload/preload.js'), // Chemin vers le preload
       contextIsolation: true, // Sécurité : isolement du contexte
       nodeIntegration: false, // Sécurité : désactive l'intégration de Node.js dans le renderer
-      devTools: true, // Ouvre les outils de développement
+      devTools: false, // Ouvre les outils de développement
       spellcheck: false, // Désactive la vérification orthographique
     },
   });
 
+  if (app.isPackaged) {
+    pythonProcess = subProcess.exec(`${path.join(process.resourcesPath, 'app.asar.unpacked', 'python-env', 'bin', 'python')} -u ${path.join(process.resourcesPath, 'app.asar.unpacked', 'main_page_login_finish', 'app.py')}`);
+  }
+  else {
+    pythonProcess = subProcess.exec(`${path.join(__dirname, '..', '..', 'python-env', 'bin', 'python')} -u ${path.join(__dirname, '..', '..', 'main_page_login_finish', 'app.py')}`);
+  }
+  console.log(process.resourcesPath);
+
   // Charge le fichier HTML
-  //mainWindow.removeMenu();
+  mainWindow.removeMenu();
   mainWindow.loadFile(path.join(__dirname, '../../public/waiting/index.html'));
 }
 
@@ -39,10 +49,13 @@ function createWindow() {
 app.on('ready', () => {
   createWindow();
 
-  ipcMain.handle('connect', async (_,type,data) => {
+  pythonProcess.stdout?.on('data', (data) => {
+    console.log(`stdout: ${data}`);
+  });
 
-    let rep : AxiosResponse<any, any>;
+  ipcMain.handle('connect', async (_, type, data) => {
 
+    let rep: AxiosResponse<any, any>;
 
     console.log(type, data);
 
@@ -213,10 +226,6 @@ app.on('ready', () => {
     mainWindow.loadURL('http://localhost:5000');
   });
 
-});
-
-pythonProcess.stdout?.on('data', (data) => {
-  console.log(`stdout: ${data}`);
 });
 
 app.on('window-all-closed', () => {

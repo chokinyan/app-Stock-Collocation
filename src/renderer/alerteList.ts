@@ -22,14 +22,13 @@ document.addEventListener("DOMContentLoaded", async () => {
                     continue; // Skip if the container does not match
                 }
                 const alerteItem = document.createElement("div");
-                alerteItem.className = "Alerte-item";
+                alerteItem.className = "user-item";
                 const alerteIcon = document.createElement("img");
                 if (alerte.ImageUrl) {
                     alerteIcon.src = alerte.ImageUrl;
                 } else {
                     alerteIcon.src = "../../asset/image/icon/Monogram.svg"; // Default icon if no image URL
                 }
-                alerteIcon.className = "alerte-item-icon";
                 const alerteText = document.createElement("p");
                 alerteText.innerText = `L'aliment ${alerte.Nom_produit} est périmé depuis le ${alerte.Date_Peremption.split("T")[0]}`;
                 alerteItem.appendChild(alerteIcon);

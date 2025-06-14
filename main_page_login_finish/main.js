@@ -206,13 +206,13 @@ document.addEventListener('DOMContentLoaded', function () {
                     backgroundVideo.src = 'videos/Rain.mp4';
                     document.body.classList.add('rainy-weather');
                 } else if (weatherCondition.includes('Clear')) {
-                    backgroundVideo.src = 'videos/Blue-sky.mp4';
+                    backgroundVideo.src = 'videos/Blue-sky.webm';
                     document.body.classList.add('clear-weather');
                 } else if (weatherCondition.includes('Clouds')) {
-                    backgroundVideo.src = 'videos/Clouds.mp4';
+                    backgroundVideo.src = 'videos/Clouds.webm';
                     document.body.classList.add('cloudy-weather');
                 } else {
-                    backgroundVideo.src = 'videos/Blue-sky.mp4';
+                    backgroundVideo.src = 'videos/Blue-sky.webm';
                     document.body.classList.add('clear-weather');
                 }
 

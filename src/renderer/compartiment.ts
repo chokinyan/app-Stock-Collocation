@@ -36,20 +36,17 @@ document.addEventListener("DOMContentLoaded", async () => {
                 console.log(item);
 
                 const itemDiv = document.createElement("div");
-                itemDiv.className = "compartiment-item";
+                itemDiv.className = "user-item compartiment-item";
                 const itemIcon = document.createElement("img");
                 if (item.ImageUrl) {
                     itemIcon.src = item.ImageUrl; // Use the image URL from the item
                 } else {
                     itemIcon.src = "../../asset/image/icon/Monogram.svg"; // Default icon if no image URL
                 }
-                itemIcon.className = "compartiment-item-icon";
                 const itemName = document.createElement("p");
-                itemName.className = "compartiment-item-name";
                 itemName.innerText = item.Nom_produit || "Nom de l'aliment"; // Fallback if name is missing
                 const itemDate = document.createElement("p");
-                itemDate.className = "compartiment-item-date";
-                itemDate.innerText = item.Date_Peremption.split("T")[0]; // Format date to YYYY-MM-DD
+                itemDate.innerText = `Périme le : ${item.Date_Peremption.split("T")[0]}`; // Format date to YYYY-MM-DD
                 const itemInput = document.createElement("input");
                 itemInput.type = "radio";
                 itemInput.name = "compartiment-item";
