@@ -5,7 +5,7 @@ import pickle
 import cv2
 
 print("[INFO] start processing faces...")
-imagePaths = list(paths.list_images("dataset"))
+imagePaths = list(paths.list_images(f"{os.path.dirname(os.path.realpath(__file__))}/dataset"))
 knownEncodings = []
 knownNames = []
 
@@ -25,7 +25,7 @@ for (i, imagePath) in enumerate(imagePaths):
 
 print("[INFO] serializing encodings...")
 data = {"encodings": knownEncodings, "names": knownNames}
-with open("encodings.pickle", "wb") as f:
+with open(f"{os.path.dirname(os.path.realpath(__file__))}/encodings.pickle", "wb") as f:
     f.write(pickle.dumps(data))
 
 print("[INFO] Training complete. Encodings saved to 'encodings.pickle'")

@@ -28,6 +28,34 @@ frame_count = 0
 start_time = time.time()
 fps = 0
 
+# Button variables
+button_pressed = False
+button_x, button_y, button_w, button_h = 500, 10, 120, 40
+
+def mouse_callback(event, x, y, flags, param):
+    global button_pressed
+    if event == cv2.EVENT_LBUTTONDOWN:
+        # Check if click is within button area
+        if button_x <= x <= button_x + button_w and button_y <= y <= button_y + button_h:
+            button_pressed = True
+
+def draw_quit_button(frame):
+    # Draw button background
+    cv2.rectangle(frame, (button_x, button_y), (button_x + button_w, button_y + button_h), (0, 0, 200), -1)
+    
+    # Draw button border
+    cv2.rectangle(frame, (button_x, button_y), (button_x + button_w, button_y + button_h), (255, 255, 255), 2)
+    
+    # Add button text
+    font = cv2.FONT_HERSHEY_SIMPLEX
+    text = "QUITTER"
+    text_size = cv2.getTextSize(text, font, 0.6, 2)[0]
+    text_x = button_x + (button_w - text_size[0]) // 2
+    text_y = button_y + (button_h + text_size[1]) // 2
+    cv2.putText(frame, text, (text_x, text_y), font, 0.6, (255, 255, 255), 2)
+    
+    return frame
+
 def process_frame(frame):
     global face_locations, face_encodings, face_names
     
@@ -85,6 +113,10 @@ def calculate_fps():
         start_time = time.time()
     return fps
 
+# Set up the window and mouse callback
+cv2.namedWindow('Video')
+cv2.setMouseCallback('Video', mouse_callback)
+
 while True:
     # Capture a frame from camera
     frame = picam2.capture_array()
@@ -99,14 +131,17 @@ while True:
     current_fps = calculate_fps()
     
     # Attach FPS counter to the text and boxes
-    cv2.putText(display_frame, f"FPS: {current_fps:.1f}", (display_frame.shape[1] - 150, 30), 
+    cv2.putText(display_frame, f"FPS: {current_fps:.1f}", (display_frame.shape[1] - 150, 70), 
                 cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+    
+    # Draw the quit button
+    display_frame = draw_quit_button(display_frame)
     
     # Display everything over the video feed.
     cv2.imshow('Video', display_frame)
     
-    # Break the loop and stop the script if 'q' is pressed
-    if cv2.waitKey(1) == ord("q"):
+    # Break the loop and stop the script if 'q' is pressed or quit button is clicked
+    if cv2.waitKey(1) == ord("q") or button_pressed:
         break
 
 # By breaking the loop we run this code here which closes everything

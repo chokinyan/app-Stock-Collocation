@@ -3,10 +3,19 @@ import KioskBoard from 'kioskboard';
 import path from 'path';
 import subProcess from 'child_process';
 import axios, { AxiosResponse } from 'axios';
+import fs from 'fs';
 
 let token: string = "";
 
-var pythonProcess: subProcess.ChildProcess;
+let pythonProcess: subProcess.ChildProcess;
+
+let photoProcess: subProcess.ChildProcess;
+let rfidProcess: subProcess.ChildProcess;
+
+let testPhotoProcess: subProcess.ChildProcess;
+let testRfidProcess: subProcess.ChildProcess;
+
+let realoadFacesProcess: subProcess.ChildProcess;
 
 //'./python-env/bin/python -u ./main_page_login_finish/app.py'
 let userInfo: { id: number, nom: string, prenom: string } = {
@@ -27,7 +36,7 @@ function createWindow() {
       preload: path.join(__dirname, '../preload/preload.js'), // Chemin vers le preload
       contextIsolation: true, // Sécurité : isolement du contexte
       nodeIntegration: false, // Sécurité : désactive l'intégration de Node.js dans le renderer
-      devTools: false, // Ouvre les outils de développement
+      devTools: true, // Ouvre les outils de développement
       spellcheck: false, // Désactive la vérification orthographique
     },
   });
@@ -38,10 +47,8 @@ function createWindow() {
   else {
     pythonProcess = subProcess.exec(`${path.join(__dirname, '..', '..', 'python-env', 'bin', 'python')} -u ${path.join(__dirname, '..', '..', 'main_page_login_finish', 'app.py')}`);
   }
-  console.log(process.resourcesPath);
-
   // Charge le fichier HTML
-  mainWindow.removeMenu();
+  //mainWindow.removeMenu();
   mainWindow.loadFile(path.join(__dirname, '../../public/waiting/index.html'));
 }
 
@@ -56,8 +63,6 @@ app.on('ready', () => {
   ipcMain.handle('connect', async (_, type, data) => {
 
     let rep: AxiosResponse<any, any>;
-
-    console.log(type, data);
 
     switch (type) {
       case 'rfid':
@@ -85,8 +90,6 @@ app.on('ready', () => {
         console.error('Type de connexion non supporté');
         return;
     }
-
-
 
     if (rep.data.token && rep.data.token !== "") {
       console.log(rep.data);
@@ -226,11 +229,136 @@ app.on('ready', () => {
     mainWindow.loadURL('http://localhost:5000');
   });
 
+  ipcMain.handle('goSetting', () => {
+    mainWindow.loadFile(path.join(__dirname, '../../public/admin/index.html'));
+  });
+
+  ipcMain.handle('adminConnect', async (_event, username: string, password: string) => {
+    const rep = await axios.post(`http://localhost:3000/Authentification`, {
+      action: "login",
+      user: username,
+      password: password
+    });
+
+    if (rep.data.token && rep.data.token !== "" && Number(rep.data.id) === 3) {
+      console.log(rep.data);
+      token = rep.data.token;
+      userInfo = {
+        id: Number(rep.data.id),
+        nom: rep.data.nom,
+        prenom: rep.data.prenom
+      }
+      mainWindow.loadFile(path.join(__dirname, '../../public/admin/dashboard/index.html'));
+    } else {
+      throw new Error("Invalid credentials or insufficient permissions.");
+    }
+  });
+
+  ipcMain.handle('editItemInContainer', async (_event, item, container) => {
+    const rep = await axios.put(`http://localhost:3000/Item`, {
+      token: token,
+      id: item.id,
+      name: item.name,
+      container: container,
+      expire: item.expirationDate,
+      image: item.image
+    });
+    return rep.data;
+  });
+
+  ipcMain.handle('collocInfo', async (_event, id) => {
+    console.log("Fetching user info for ID:", id);
+    const rep = await axios.get(`http://localhost:3000/User?token=${token}&id=${id}`);
+    return rep.data;
+
+  });
+
+  ipcMain.handle('goEditUser', async (_event, user, id) => {
+    await mainWindow.loadFile(path.join(__dirname, '../../public/admin/editUser/index.html'));
+    mainWindow.webContents.executeJavaScript(`
+        document.querySelector('.form-input[name="nom"]').value = "${user.nom ? user.nom : ''}";
+        document.querySelector('.form-input[name="prenom"]').value = "${user.prenom ? user.prenom : ''}";
+        document.getElementById('userId').textContent = "${id}";
+      `);
+  });
+
+  ipcMain.handle('savePicture', async (_, pictures: Array<string>,name) => {
+    let testImageDir: string;
+    if (app.isPackaged) {
+      testImageDir = path.join(process.resourcesPath, 'app.asar.unpacked', 'main_page_login_finish','dataset', name);
+    }
+    else {
+      testImageDir = path.join(__dirname, '..', '..', 'main_page_login_finish', 'dataset', name);
+    }
+
+    // Create testImage directory if it doesn't exist
+    if (!fs.existsSync(testImageDir)) {
+      fs.mkdirSync(testImageDir, { recursive: true });
+    }
+
+    try {
+      for (let i = 0; i < pictures.length; i++) {
+        // Extract base64 data from data URL
+        const base64Data = pictures[i].replace(/^data:image\/[a-z]+;base64,/, '');
+        const fileName = `image_${Date.now()}_${i}.png`;
+        const filePath = path.join(testImageDir, fileName);
+
+        // Save the image
+        fs.writeFileSync(filePath, base64Data, 'base64');
+      }
+      console.log(`${pictures.length} images saved to testImage directory`);
+    } catch (error) {
+      console.error('Error saving images:', error);
+    }
+  });
+
+  ipcMain.handle('reloadFaces', async () => {
+    if (app.isPackaged) {
+      realoadFacesProcess = subProcess.exec(`${path.join(process.resourcesPath, 'app.asar.unpacked', 'python-env', 'bin', 'python')} -u ${path.join(process.resourcesPath, 'app.asar.unpacked', 'main_page_login_finish', 'model_training.py')}`);
+    }
+    else {
+      realoadFacesProcess = subProcess.exec(`${path.join(__dirname, '..', '..', 'python-env', 'bin', 'python')} -u ${path.join(__dirname, '..', '..', 'main_page_login_finish', 'model_training.py')}`);
+    }
+  });
+
+  ipcMain.handle('writeRfid', async (_event, name) => {
+    if (app.isPackaged) {
+      rfidProcess = subProcess.exec(`${path.join(process.resourcesPath, 'app.asar.unpacked', 'python-env', 'bin', 'python')} -u ${path.join(process.resourcesPath, 'app.asar.unpacked', 'main_page_login_finish', 'rfid_write.py')} ${name}`);
+    }
+    else {
+      rfidProcess = subProcess.exec(`${path.join(__dirname, '..', '..', 'python-env', 'bin', 'python')} -u ${path.join(__dirname, '..', '..', 'main_page_login_finish', 'rfid_write.py')} ${name}`);
+    }
+
+    rfidProcess.stdout?.on('data', (data) => {
+      console.log(`stdout: ${data}`);
+    });
+
+    rfidProcess.stderr?.on('data', (data) => {
+      console.error(`stderr: ${data}`);
+    });
+
+    rfidProcess.on('close', (code) => {
+      console.log(`rfidProcess exited with code ${code}`);
+      if (code === 0) {
+        console.log('RFID written successfully');
+      } else {
+        console.error('Error writing RFID');
+      }
+    });
+
+    rfidProcess.on('error', (error) => {
+      console.error('Error in rfidProcess:', error);
+    });
+
+
+  });
+
 });
 
+
 app.on('window-all-closed', () => {
+  pythonProcess.kill(0);
   if (process.platform !== 'darwin') {
-    pythonProcess.kill(0);
     app.quit();
   }
 });

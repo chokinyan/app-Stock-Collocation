@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="../asset/css/admin.css">
+    <link rel="stylesheet" href="../asset/css/style.css">
+    <link rel="stylesheet" href="../asset/kiosk/dist/kioskboard-2.3.0.min.css">
+    <script src="../asset/kiosk/dist/kioskboard-2.3.0.min.js"></script>
+</head>
+
+<body>
+    <header class="admin-connection-header container">
+        <button class="alerte-button return-button-info back-button">
+            <img src="../asset/image/icon/backIcon.svg" alt="backIcon" class="alerte-backIcon">
+            Retour
+        </button>
+        <h1>Acces au panel Admin</h1>
+    </header>
+
+    <main class="admin-connection-main container">
+        <input type="text" id="username" placeholder="Nom d'utilisateur" required>
+        <input type="password" id="password" placeholder="Mot de passe" required>
+        <button id="loginButton">Se connecter</button>
+        <div id="errorMessage" style="color: red; display: none;">Identifiants incorrects</div>
+        <div id="successMessage" style="color: green; display: none;">Connexion réussie</div>
+    </main>
+
+</body>
+
+<script src="../../dist/renderer/index.js"></script>
+<script src="../../dist/renderer/admin.js"></script>
+
+</html>

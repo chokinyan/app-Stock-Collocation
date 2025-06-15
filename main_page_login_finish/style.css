@@ -35,6 +35,7 @@ body {
 .settings-button {
     border: none;
     background-color: transparent;
+    cursor: pointer;
 }
 
 h1,

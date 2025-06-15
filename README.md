@@ -1,9 +1,27 @@
-# testFin
+# Application Stock Collocation
 
-Run the following commands in your terminal to install TypeScript and initialize the project:
+## Description
+Cette application permet de gérer le stock d'une collocation de manière collaborative.
 
-**npm** **install**
+## Fonctionnalités
+- Gestion des produits en stock
+- Suivi des consommations
+- Liste de courses partagée
+- Notifications de stock faible
 
-**npm** **start**
+## Installation
+```bash
+git clone <url-du-repo>
+cd app-Stock-Collocation
+bash ./config.sh
+```
 
-This will compile the TypeScript files and run the generated JavaScript code.
+## Utilisation
+```bash
+npm start
+```
+
+## Technologies utilisées
+- Node.js
+- Express
+- Base de données (à préciser)

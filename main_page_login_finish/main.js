@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const buttons = document.querySelectorAll('.photo-button, .pin-button, .rfid-button')
     const container = document.querySelector('.button-container')
     const backButton = document.querySelector('.back-button')
+    const settingButton = document.getElementsByClassName('settings-button')[0]
     let faceCheckInterval = null
     let weatherInterval = null
 
@@ -257,4 +258,8 @@ document.addEventListener('DOMContentLoaded', function () {
         stopFaceChecking();
         stopWeatherUpdates();
     });
+
+    settingButton.addEventListener('click', function () {
+        window.nav.goSetting();
+    })
 })
