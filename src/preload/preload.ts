@@ -1,4 +1,3 @@
-import { verify } from 'crypto';
 import { contextBridge, ipcRenderer } from 'electron';
 
 contextBridge.exposeInMainWorld('electron', {
@@ -46,4 +45,14 @@ contextBridge.exposeInMainWorld('admin', {
     reloadFaces: () => ipcRenderer.invoke('reloadFaces'),
 
     writeRfid: (name: any) => ipcRenderer.invoke('writeRfid', name),
+
+    dlUser: (id: string, nom: string) => ipcRenderer.invoke("dlUser", id, nom),
+    addUser: (info: {
+        nom: string,
+        prenom: string,
+        rfid: string,
+        pin: string,
+        mdp: string,
+        id: string
+    }) => ipcRenderer.invoke("addUser", info)
 });

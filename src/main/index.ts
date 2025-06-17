@@ -9,11 +9,29 @@ let token: string = "";
 
 let pythonProcess: subProcess.ChildProcess;
 
-let photoProcess: subProcess.ChildProcess;
-let rfidProcess: subProcess.ChildProcess;
+subProcess.exec('sudo fuser -k 5000/tcp');
 
-let testPhotoProcess: subProcess.ChildProcess;
-let testRfidProcess: subProcess.ChildProcess;
+if (app.isPackaged) {
+  pythonProcess = subProcess.spawn(
+    path.join(process.resourcesPath, 'app.asar.unpacked', 'python-env', 'bin', 'python'),
+    ['-u', path.join(process.resourcesPath, 'app.asar.unpacked', 'main_page_login_finish', 'app.py')],
+    {
+      stdio: ['pipe', 'pipe', 'pipe'], // stdin, stdout, stderr
+      detached: false // Important pour pouvoir tuer le processus
+    }
+  );
+} else {
+  pythonProcess = subProcess.spawn(
+    path.join(__dirname, '..', '..', 'python-env', 'bin', 'python'),
+    ['-u', path.join(__dirname, '..', '..', 'main_page_login_finish', 'app.py')],
+    {
+      stdio: ['pipe', 'pipe', 'pipe'],
+      detached: false
+    }
+  );
+}
+
+let rfidProcess: subProcess.ChildProcess;
 
 let realoadFacesProcess: subProcess.ChildProcess;
 
@@ -41,14 +59,10 @@ function createWindow() {
     },
   });
 
-  if (app.isPackaged) {
-    pythonProcess = subProcess.exec(`${path.join(process.resourcesPath, 'app.asar.unpacked', 'python-env', 'bin', 'python')} -u ${path.join(process.resourcesPath, 'app.asar.unpacked', 'main_page_login_finish', 'app.py')}`);
-  }
-  else {
-    pythonProcess = subProcess.exec(`${path.join(__dirname, '..', '..', 'python-env', 'bin', 'python')} -u ${path.join(__dirname, '..', '..', 'main_page_login_finish', 'app.py')}`);
-  }
   // Charge le fichier HTML
   //mainWindow.removeMenu();
+
+
   mainWindow.loadFile(path.join(__dirname, '../../public/waiting/index.html'));
 }
 
@@ -64,12 +78,15 @@ app.on('ready', () => {
 
     let rep: AxiosResponse<any, any>;
 
+    console.log("Type de connexion:", type);
+    console.log("Data de connexion:", data);
+
     switch (type) {
       case 'rfid':
         /*await mainWindow.loadFile(path.join(__dirname, '../../public/colloc/rfid/index.html'));*/
         rep = await axios.post("http://localhost:3000/Authentification", {
           "action": "rfid",
-          "rfid": data,
+          "rfid": data.name,
         });
         break;
       case 'visage':
@@ -130,20 +147,19 @@ app.on('ready', () => {
     await mainWindow.loadFile(path.join(__dirname, '../../public/colloc/compartiment/index.html'));
   });
 
-  ipcMain.handle('back', async () => {
+  ipcMain.handle('back', () => {
     mainWindow.webContents.navigationHistory.goBack();
   });
 
-
-  ipcMain.handle('test', async (_event, test) => {
+  ipcMain.handle('test', (_event, test) => {
     console.log(test);
   });
 
-  ipcMain.handle('addItem', async (_event) => {
+  ipcMain.handle('addItem', (_event) => {
     mainWindow.loadFile(path.join(__dirname, '../../public/colloc/compartiment/edit/addItem.html'));
   });
 
-  ipcMain.handle('editItem', async (_event, item) => {
+  ipcMain.handle('editItem', (_event, item) => {
     mainWindow.loadFile(path.join(__dirname, '../../public/colloc/compartiment/edit/editItem.html'));
   });
 
@@ -225,7 +241,7 @@ app.on('ready', () => {
     return rep.data;
   });
 
-  ipcMain.handle('loadConnection', async () => {
+  ipcMain.handle('loadConnection', () => {
     mainWindow.loadURL('http://localhost:5000');
   });
 
@@ -282,10 +298,10 @@ app.on('ready', () => {
       `);
   });
 
-  ipcMain.handle('savePicture', async (_, pictures: Array<string>,name) => {
+  ipcMain.handle('savePicture', (_, pictures: Array<string>, name) => {
     let testImageDir: string;
     if (app.isPackaged) {
-      testImageDir = path.join(process.resourcesPath, 'app.asar.unpacked', 'main_page_login_finish','dataset', name);
+      testImageDir = path.join(process.resourcesPath, 'app.asar.unpacked', 'main_page_login_finish', 'dataset', name);
     }
     else {
       testImageDir = path.join(__dirname, '..', '..', 'main_page_login_finish', 'dataset', name);
@@ -312,16 +328,7 @@ app.on('ready', () => {
     }
   });
 
-  ipcMain.handle('reloadFaces', async () => {
-    if (app.isPackaged) {
-      realoadFacesProcess = subProcess.exec(`${path.join(process.resourcesPath, 'app.asar.unpacked', 'python-env', 'bin', 'python')} -u ${path.join(process.resourcesPath, 'app.asar.unpacked', 'main_page_login_finish', 'model_training.py')}`);
-    }
-    else {
-      realoadFacesProcess = subProcess.exec(`${path.join(__dirname, '..', '..', 'python-env', 'bin', 'python')} -u ${path.join(__dirname, '..', '..', 'main_page_login_finish', 'model_training.py')}`);
-    }
-  });
-
-  ipcMain.handle('writeRfid', async (_event, name) => {
+  ipcMain.handle('writeRfid', (_event, name) => {
     if (app.isPackaged) {
       rfidProcess = subProcess.exec(`${path.join(process.resourcesPath, 'app.asar.unpacked', 'python-env', 'bin', 'python')} -u ${path.join(process.resourcesPath, 'app.asar.unpacked', 'main_page_login_finish', 'rfid_write.py')} ${name}`);
     }
@@ -350,11 +357,113 @@ app.on('ready', () => {
       console.error('Error in rfidProcess:', error);
     });
 
+  });
 
+  ipcMain.handle('dlUser', async (_event, id, name) => {
+    console.log(`Removing user with ID: ${id} and name: ${name}`);
+    if (name.trim() === "") {
+      console.error('User name is empty, cannot proceed with removal.');
+      return;
+    }
+
+    try {
+      const response = await axios.delete(`http://localhost:3000/User`, {
+        data: {
+          token: token,
+          id: id
+        }
+      });
+      console.log('User removed successfully:', response.data);
+    } catch (error) {
+      console.error('Error removing user:', error);
+    }
+
+    // Delete the user's dataset folder
+    let datasetPath: string;
+    if (app.isPackaged) {
+      datasetPath = path.join(process.resourcesPath, 'app.asar.unpacked', 'main_page_login_finish', 'dataset', name);
+    } else {
+      datasetPath = path.join(__dirname, '..', '..', 'main_page_login_finish', 'dataset', name);
+    }
+
+    if (fs.existsSync(datasetPath)) {
+      fs.rmSync(datasetPath, { recursive: true, force: true });
+      console.log(`Dataset folder deleted for user: ${name}`);
+    } else {
+      console.log(`Dataset folder not found for user: ${name}`);
+    }
+
+    mainWindow.loadFile(path.join(__dirname, '../../public/admin/dashboard/index.html'));
+
+  });
+
+  ipcMain.handle('addUser', async (_event, info) => {
+    try {
+      const response = await axios.post(`http://localhost:3000/User`, {
+        token: token,
+        nom: info.nom,
+        prenom: info.prenom,
+        rfid: info.rfid,
+        pin: info.pin,
+        mdp: info.mdp,
+        id: info.id
+      });
+      console.log('User added successfully:', response.data);
+      reloadFaces();
+    } catch (error) {
+      console.error('Error adding user:', error);
+    }
   });
 
 });
 
+const reloadFaces = () => {
+
+  if (realoadFacesProcess) {
+    realoadFacesProcess.kill();
+  }
+
+  if (app.isPackaged) {
+    realoadFacesProcess = subProcess.exec(`${path.join(process.resourcesPath, 'app.asar.unpacked', 'python-env', 'bin', 'python')} -u ${path.join(process.resourcesPath, 'app.asar.unpacked', 'main_page_login_finish', 'model_training.py')}`);
+  }
+  else {
+    realoadFacesProcess = subProcess.exec(`${path.join(__dirname, '..', '..', 'python-env', 'bin', 'python')} -u ${path.join(__dirname, '..', '..', 'main_page_login_finish', 'model_training.py')}`);
+  }
+
+  mainWindow.loadFile(path.join(__dirname, '../../public/admin/waitingFacesLoad/index.html'));
+
+  realoadFacesProcess.once('close', (_code) => {
+    mainWindow.loadFile(path.join(__dirname, '../../public/admin/dashboard/index.html'));
+    reloadPythonProcess();
+  });
+
+};
+
+
+const reloadPythonProcess = () => {
+  if (pythonProcess) {
+    pythonProcess.kill(0);
+  }
+  if (app.isPackaged) {
+    pythonProcess = subProcess.spawn(
+      path.join(process.resourcesPath, 'app.asar.unpacked', 'python-env', 'bin', 'python'),
+      ['-u', path.join(process.resourcesPath, 'app.asar.unpacked', 'main_page_login_finish', 'app.py')],
+      {
+        stdio: ['pipe', 'pipe', 'pipe'], // stdin, stdout, stderr
+        detached: false // Important pour pouvoir tuer le processus
+      }
+    );
+  } else {
+    pythonProcess = subProcess.spawn(
+      path.join(__dirname, '..', '..', 'python-env', 'bin', 'python'),
+      ['-u', path.join(__dirname, '..', '..', 'main_page_login_finish', 'app.py')],
+      {
+        stdio: ['pipe', 'pipe', 'pipe'], // stdin, stdout, stderr
+        detached: false // Important pour pouvoir tuer le processus
+      }
+    );
+  }
+};
 
 app.on('window-all-closed', () => {
   pythonProcess.kill(0);
@@ -366,6 +475,13 @@ app.on('window-all-closed', () => {
 app.on('activate', () => {
   if (BrowserWindow.getAllWindows().length === 0) {
     createWindow();
+  }
+});
+
+process.on('beforeExit', (code) => {
+  console.log(`Process is about to exit with code: ${code}`);
+  if (pythonProcess && !pythonProcess.killed) {
+    pythonProcess.kill(0);
   }
 });
 

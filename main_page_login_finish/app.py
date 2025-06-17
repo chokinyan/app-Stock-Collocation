@@ -115,7 +115,7 @@ def auth_face():
             nom = known_face_names[idx]
     #if verifier_face(nom):
     #    return jsonify({"success": True})
-    return jsonify({"success": False,"nom":nom})
+    return jsonify({"success": True,"nom":nom})
 
 @app.route('/auth/pin', methods=['POST'])
 def auth_pin():
@@ -139,7 +139,7 @@ def auth_rfid():
             #    return jsonify({"success": True, "message": "Accès autorisé"})
             #else:
             #    return jsonify({"success": False, "message": "Carte non autorisée"})
-            return jsonify({"success": True, "message": "Carte détectée", "id": cid})
+            return jsonify({"success": True, "name" : text, "id": cid})
         else:
             return jsonify({"success": False, "message": "Aucune carte détectée"})
             

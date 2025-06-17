@@ -86,9 +86,9 @@ document.addEventListener('DOMContentLoaded', function () {
             .then(res => res.json())
             .then(data => {
                 if (data.success) {
-                    window.user.connect('rfid', data.id)
+                    window.user.connect('rfid', data)
                 } else {
-                    alert(data.message)
+                    alert(data.message + " recharger la page pour recommencer")
                 }
             })
             .catch(err => console.error(err))

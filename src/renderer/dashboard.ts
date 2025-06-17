@@ -1,5 +1,14 @@
 document.addEventListener("DOMContentLoaded", async () => {
 
+    const disconnectBtn = document.getElementById("disconnectButton") as HTMLButtonElement;
+
+    if(disconnectBtn){
+        disconnectBtn.addEventListener("click", () => {
+            //@ts-ignore
+            window.user.disconnect();
+        });
+    }
+
     //@ts-ignore
     const userUn = await window.admin.collocInfo("1");
     //@ts-ignore

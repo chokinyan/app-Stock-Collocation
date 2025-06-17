@@ -21,8 +21,10 @@
     </header>
 
     <main class="admin-connection-main container">
-        <input type="text" id="username" placeholder="Nom d'utilisateur" required>
-        <input type="password" id="password" placeholder="Mot de passe" required>
+        <input class="js-kioskboard-input" data-kioskboard-type="all" data-kioskboard-specialcharacters="true"
+            type="text" id="username" placeholder="Nom d'utilisateur" required>
+        <input class="js-kioskboard-input" data-kioskboard-type="all" data-kioskboard-specialcharacters="true"
+            type="password" id="password" placeholder="Mot de passe" required>
         <button id="loginButton">Se connecter</button>
         <div id="errorMessage" style="color: red; display: none;">Identifiants incorrects</div>
         <div id="successMessage" style="color: green; display: none;">Connexion réussie</div>
