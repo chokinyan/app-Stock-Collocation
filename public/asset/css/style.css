@@ -50,10 +50,10 @@ body {
 
 #colloc-head-container {
     display: flex;
-    justify-content: center;
+    justify-content: start;
     align-items: center;
     padding: 2rem 5vw 2rem;
-    gap: 30vw;
+    gap: 23vw;
 }
 
 #colloc-notification {
@@ -64,12 +64,15 @@ body {
 }
 
 #colloc-head {
-    font-size: 25px;
+    font-size: 50px;
     font-weight: 600;
     line-height: auto;
     letter-spacing: 0;
     text-align: center;
     color: #381E72;
+
+    text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25),
+        0px 2px 4px rgba(0, 0, 0, 0.25) inset;
 }
 
 #colloc-notification-container {
@@ -81,7 +84,7 @@ body {
 }
 
 #colloc-body-container {
-    padding: 20vh 5vw 2rem;
+    padding: 10vh 5vw 2rem;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -95,6 +98,7 @@ body {
     justify-content: center;
     align-items: center;
     padding-top: 2rem;
+    gap: 3rem;
 }
 
 #colloc-footer-container p {
@@ -109,7 +113,7 @@ body {
 }
 
 #Temparature {
-    font-size: 40px;
+    font-size: 70px;
 }
 
 .default-button {
@@ -118,27 +122,26 @@ body {
     border: none;
     border-radius: 5px;
     cursor: pointer;
+
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.75),
+        0px 2px 4px rgba(67, 29, 255, 0.25) inset;
 }
 
 .default-button p {
     margin: 0;
     padding: 0;
-    font-size: 35px;
+    font-size: 50px;
     text-align: center;
 }
 
-#openCompartiment {
-    width: 285px;
-    height: 165.75px;
-}
-
 #openCompartiment p {
-    color: #f5f5f5 !important;;
+    color: #f5f5f5 !important;
+    ;
 }
 
 .colloc-button {
-    width: 285px;
-    height: 150px;
+    width: 500px;
+    height: 250px;
 }
 
 .colloc-button p {
@@ -147,14 +150,14 @@ body {
 
 .back-button {
     --width-button: 6em;
-    --height-button: 10vh;
+    --height-button: 8vh;
     --border-radius: 10px;
-    --font-size: 24px;
+    --font-size: 40px;
 }
 
 .back-button img {
-    width: 25px;
-    height: 25px;
+    width: 35px;
+    height: 35px;
 }
 
 .alerte-button {
@@ -169,6 +172,10 @@ body {
     font-size: var(--font-size);
     width: var(--width-button);
     height: var(--height-button);
+
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.75),
+        0px 2px 4px rgba(230, 17, 17, 0.25) inset;
+
 }
 
 .content-header {
@@ -179,12 +186,14 @@ body {
 }
 
 .title {
-    font-size: 32px;
+    font-size: 52px;
     font-weight: 600;
     line-height: auto;
     letter-spacing: 0;
     color: #381E72;
-    padding-left: 9.5em
+    padding-left: 9.5em;
+    text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25),
+        0px 2px 4px rgba(0, 0, 0, 0.25) inset;
 }
 
 #alerte-buttons-choice-container {
@@ -196,8 +205,8 @@ body {
 }
 
 .alerte-button-choice {
-    --width-button: 15em;
-    --height-button: 7vh;
+    --width-button: 20em;
+    --height-button: 9vh;
     --padding-button: 1rem 2rem;
     display: flex;
     flex-direction: row;
@@ -207,15 +216,15 @@ body {
 }
 
 .alerte-button-choice p {
-    font-size: 20px;
-    line-height: 20px;
+    font-size: 30px;
+    line-height: 40px;
     letter-spacing: 0.1px;
     font-weight: 500;
 }
 
 .alerte-button-choice img {
-    width: 33px;
-    height: 27px;
+    width: 48px;
+    height: 33px;
 }
 
 .choice-button {
@@ -264,7 +273,7 @@ body {
 }
 
 .user-item img {
-    object-fit:contain ;
+    object-fit: contain;
     width: 60px;
     height: 60px;
 }
